@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trip Detail — Travora</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/planner.css" />
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <div class="navbar__logo-icon"><i class="fa-solid fa-earth-americas"></i></div>
+        <span>Travora</span>
+      </a>
+      <ul class="navbar__links">
+        <li><a href="index.html"    class="navbar__link">Home</a></li>
+        <li><a href="explore.html"  class="navbar__link">Explore</a></li>
+        <li><a href="my-trips.html" class="navbar__link">My Trips</a></li>
+        <li><a href="planner.html"  class="navbar__link">AI Planner</a></li>
+        <li><a href="pricing.html"  class="navbar__link">Pricing</a></li>
+        <li><a href="about.html"    class="navbar__link">About Us</a></li>
+      </ul>
+      <div class="navbar__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+        <div id="authNav" style="display:none;">
+          <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+        </div>
+        <div id="userNav" style="display:none;align-items:center;gap:8px;"><div class="user-avatar" id="userAvatar">U</div></div>
+        <button class="navbar__hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </div>
+  <div class="navbar__mobile-menu" id="mobileMenu">
+    <a href="index.html" class="navbar__link">Home</a>
+    <a href="explore.html" class="navbar__link">Explore</a>
+    <a href="my-trips.html" class="navbar__link">My Trips</a>
+    <a href="planner.html" class="navbar__link">AI Planner</a>
+    <a href="pricing.html" class="navbar__link">Pricing</a>
+    <a href="about.html" class="navbar__link">About Us</a>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+<main>
+  <!-- Loading -->
+  <div id="detailLoading" style="display:flex;align-items:center;justify-content:center;min-height:60vh;flex-direction:column;gap:var(--space-lg);">
+    <div class="spinner"></div>
+    <p>Loading your itinerary…</p>
+  </div>
+
+  <!-- Error state -->
+  <div id="detailError" style="display:none;">
+    <div class="empty-state" style="min-height:60vh;justify-content:center;display:flex;flex-direction:column;align-items:center;">
+      <span class="empty-state__icon">😕</span>
+      <h3>Trip not found</h3>
+      <p>This trip may have been deleted or you don't have access to it.</p>
+      <a href="my-trips.html" class="btn btn-primary">Back to My Trips</a>
+    </div>
+  </div>
+
+  <!-- Trip content -->
+  <div id="detailContent" style="display:none;">
+
+    <!-- Hero banner -->
+    <div class="itinerary-header" id="tripHero" style="border-radius:0;margin-bottom:0;">
+      <div class="container">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:var(--space-md);">
+          <div>
+            <a href="my-trips.html" style="color:rgba(255,255,255,0.7);font-size:0.875rem;display:inline-flex;align-items:center;gap:6px;margin-bottom:var(--space-md);">
+              <i class="fa-solid fa-arrow-left"></i> Back to My Trips
+            </a>
+            <h1 id="tripTitle" style="color:#fff;font-size:clamp(1.75rem,4vw,2.5rem);margin-bottom:var(--space-sm);"></h1>
+            <div class="itinerary-meta" id="tripMeta"></div>
+          </div>
+          <div style="display:flex;gap:var(--space-sm);flex-wrap:wrap;">
+            <button class="btn btn-sm" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);" onclick="printTrip()">
+              <i class="fa-solid fa-print"></i> Print
+            </button>
+            <a id="regenerateBtn" class="btn btn-sm" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);">
+              <i class="fa-solid fa-rotate"></i> Regenerate
+            </a>
+            <a href="my-trips.html" class="btn btn-sm" style="background:#fff;color:var(--color-primary);">
+              <i class="fa-solid fa-arrow-left"></i> All Trips
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container" style="padding-top:var(--space-xl);padding-bottom:var(--space-3xl);">
+      <div style="display:grid;grid-template-columns:1fr 340px;gap:var(--space-xl);align-items:start;" id="detailGrid">
+
+        <!-- Left: itinerary days + local tips -->
+        <div>
+          <h2 style="margin-bottom:var(--space-lg);display:flex;align-items:center;gap:10px;">
+            <i class="fa-solid fa-calendar-days" style="color:var(--color-primary);"></i>
+            Day-by-Day Itinerary
+          </h2>
+          <div id="daysList" style="display:flex;flex-direction:column;gap:var(--space-md);"></div>
+
+          <!-- Local tips -->
+          <div id="localTipsSection" style="margin-top:var(--space-xl);display:none;">
+            <h2 style="margin-bottom:var(--space-lg);display:flex;align-items:center;gap:10px;">
+              <i class="fa-solid fa-map-pin" style="color:#22C55E;"></i>
+              Local Tips & Hidden Gems
+            </h2>
+            <div class="local-tips-card">
+              <h3><i class="fa-solid fa-gem"></i> Insider's Guide</h3>
+              <div class="local-tips-grid" id="localTipsGrid"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: sidebar -->
+        <div style="position:sticky;top:calc(var(--navbar-h) + 24px);display:flex;flex-direction:column;gap:var(--space-lg);">
+
+          <!-- Budget breakdown -->
+          <div class="budget-card">
+            <h3 style="display:flex;align-items:center;gap:8px;"><i class="fa-solid fa-piggy-bank" style="color:var(--color-primary);"></i> Budget Breakdown</h3>
+            <div class="budget-bars" id="budgetBars"></div>
+            <div id="budgetTotal" style="margin-top:var(--space-lg);padding-top:var(--space-md);border-top:1px solid var(--color-border);"></div>
+            <div id="budgetNotes" style="margin-top:var(--space-md);padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-md);font-size:0.875rem;display:none;"></div>
+          </div>
+
+          <!-- Agent notes: weather, visa, safety -->
+          <div class="budget-card" id="agentNotesCard" style="display:none;">
+            <h3 style="display:flex;align-items:center;gap:8px;margin-bottom:var(--space-lg);">
+              <i class="fa-solid fa-circle-info" style="color:var(--color-primary);"></i> Trip Intelligence
+            </h3>
+            <div id="agentNotesList" style="display:flex;flex-direction:column;gap:var(--space-md);"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom" style="border-top:none;padding-top:0;">
+      <p>© 2026 Travora. All rights reserved.</p>
+      <a href="index.html" class="navbar__logo"><div class="navbar__logo-icon"><i class="fa-solid fa-earth-americas"></i></div><span>Travora</span></a>
+    </div>
+  </div>
+</footer>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<script src="js/theme.js"></script>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/trips.js"></script>
+<script>
+  // Make detail grid responsive
+  function checkWidth() {
+    const grid = document.getElementById('detailGrid');
+    if (!grid) return;
+    grid.style.gridTemplateColumns = window.innerWidth < 900 ? '1fr' : '1fr 340px';
+  }
+  window.addEventListener('resize', checkWidth);
+  checkWidth();
+</script>
+</body>
+</html>

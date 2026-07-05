@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us — Travora</title>
+  <meta name="description" content="Learn about the Travora team and our mission to make travel planning effortless with AI." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/planner.css" />
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <div class="navbar__logo-icon"><i class="fa-solid fa-earth-americas"></i></div>
+        <span>Travora</span>
+      </a>
+      <ul class="navbar__links">
+        <li><a href="index.html"    class="navbar__link">Home</a></li>
+        <li><a href="explore.html"  class="navbar__link">Explore</a></li>
+        <li><a href="my-trips.html" class="navbar__link">My Trips</a></li>
+        <li><a href="planner.html"  class="navbar__link">AI Planner</a></li>
+        <li><a href="pricing.html"  class="navbar__link">Pricing</a></li>
+        <li><a href="about.html"    class="navbar__link active">About Us</a></li>
+      </ul>
+      <div class="navbar__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+        <div id="authNav"><a href="login.html" class="btn btn-outline btn-sm">Login</a><a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a></div>
+        <div id="userNav" style="display:none;align-items:center;gap:8px;"><div class="user-avatar" id="userAvatar">U</div></div>
+        <button class="navbar__hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </div>
+  <div class="navbar__mobile-menu" id="mobileMenu">
+    <a href="index.html" class="navbar__link">Home</a>
+    <a href="explore.html" class="navbar__link">Explore</a>
+    <a href="my-trips.html" class="navbar__link">My Trips</a>
+    <a href="planner.html" class="navbar__link">AI Planner</a>
+    <a href="pricing.html" class="navbar__link">Pricing</a>
+    <a href="about.html" class="navbar__link active">About Us</a>
+    <div style="border-top:1px solid var(--color-border);padding-top:12px;display:flex;gap:8px;" id="mobileAuthNav">
+      <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+      <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+<main>
+  <!-- Hero -->
+  <div class="page-hero">
+    <div class="container">
+      <div class="section-label" style="justify-content:center;"><i class="fa-solid fa-heart"></i> Our Story</div>
+      <h1>We're on a Mission to Make Travel Effortless</h1>
+      <p>Travora was born from a simple frustration: planning a great trip takes too many hours, too many tabs, and too much guesswork. We're fixing that with AI.</p>
+    </div>
+  </div>
+
+  <!-- Mission -->
+  <section class="section">
+    <div class="container">
+      <div class="grid-2" style="align-items:center;gap:var(--space-2xl);">
+        <div class="fade-up">
+          <div class="section-label"><i class="fa-solid fa-bullseye"></i> Our Mission</div>
+          <h2 class="section-title">Turn travel planning from a chore into a joy</h2>
+          <p style="margin-bottom:var(--space-lg);line-height:1.8;">We believe the best travel experiences start with a great plan. But planning — researching destinations, building itineraries, tracking budgets, finding hidden gems — takes days of effort that most people don't have.</p>
+          <p style="line-height:1.8;">Travora changes that. Our multi-agent AI handles all of it, producing a personalised, ready-to-use itinerary in seconds — so you can spend your energy on what actually matters: experiencing the world.</p>
+          <div style="display:flex;gap:var(--space-xl);margin-top:var(--space-xl);flex-wrap:wrap;">
+            <div><strong style="font-size:2rem;font-weight:800;color:var(--color-primary);">50K+</strong><div style="font-size:0.875rem;color:var(--color-text-muted);">Trips planned</div></div>
+            <div><strong style="font-size:2rem;font-weight:800;color:var(--color-primary);">120+</strong><div style="font-size:0.875rem;color:var(--color-text-muted);">Destinations covered</div></div>
+            <div><strong style="font-size:2rem;font-weight:800;color:var(--color-primary);">4.9★</strong><div style="font-size:0.875rem;color:var(--color-text-muted);">Average rating</div></div>
+          </div>
+        </div>
+        <div class="fade-up fade-up-delay-2">
+          <img src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=700&q=80" alt="Travelers planning a trip" style="border-radius:var(--radius-xl);box-shadow:var(--shadow-xl);" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How agents work -->
+  <section class="section" style="background:var(--color-bg-secondary);">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:var(--space-2xl);" class="fade-up">
+        <div class="section-label" style="justify-content:center;"><i class="fa-solid fa-robot"></i> The Technology</div>
+        <h2 class="section-title">Meet the AI Agents Behind Travora</h2>
+        <p class="section-subtitle" style="margin:0 auto;">Every trip is planned by a team of four specialised AI agents working in concert.</p>
+      </div>
+      <div class="grid-2" style="gap:var(--space-lg);">
+        <div class="card" style="padding:var(--space-xl);" class="fade-up">
+          <div style="display:flex;align-items:center;gap:var(--space-md);margin-bottom:var(--space-md);">
+            <div style="width:48px;height:48px;border-radius:var(--radius-md);background:var(--color-primary-soft);color:var(--color-primary);display:flex;align-items:center;justify-content:center;font-size:1.375rem;flex-shrink:0;"><i class="fa-solid fa-magnifying-glass-location"></i></div>
+            <h3 style="font-size:1.0625rem;">Research Agent</h3>
+          </div>
+          <p>Gathers destination intelligence: weather for your travel dates, visa requirements, safety notes, local transport, and the best neighbourhoods to base yourself in.</p>
+        </div>
+        <div class="card" style="padding:var(--space-xl);">
+          <div style="display:flex;align-items:center;gap:var(--space-md);margin-bottom:var(--space-md);">
+            <div style="width:48px;height:48px;border-radius:var(--radius-md);background:var(--color-primary-soft);color:var(--color-primary);display:flex;align-items:center;justify-content:center;font-size:1.375rem;flex-shrink:0;"><i class="fa-solid fa-calendar-check"></i></div>
+            <h3 style="font-size:1.0625rem;">Itinerary Builder</h3>
+          </div>
+          <p>Creates a detailed, realistic day-by-day plan — balancing must-see highlights with local experiences, factoring in travel time, opening hours, and your pace preference.</p>
+        </div>
+        <div class="card" style="padding:var(--space-xl);">
+          <div style="display:flex;align-items:center;gap:var(--space-md);margin-bottom:var(--space-md);">
+            <div style="width:48px;height:48px;border-radius:var(--radius-md);background:var(--color-primary-soft);color:var(--color-primary);display:flex;align-items:center;justify-content:center;font-size:1.375rem;flex-shrink:0;"><i class="fa-solid fa-piggy-bank"></i></div>
+            <h3 style="font-size:1.0625rem;">Budget Optimizer</h3>
+          </div>
+          <p>Allocates your budget intelligently across flights, accommodation, food, and activities. Flags overspends and suggests money-saving alternatives without sacrificing experience.</p>
+        </div>
+        <div class="card" style="padding:var(--space-xl);">
+          <div style="display:flex;align-items:center;gap:var(--space-md);margin-bottom:var(--space-md);">
+            <div style="width:48px;height:48px;border-radius:var(--radius-md);background:var(--color-primary-soft);color:var(--color-primary);display:flex;align-items:center;justify-content:center;font-size:1.375rem;flex-shrink:0;"><i class="fa-solid fa-map-pin"></i></div>
+            <h3 style="font-size:1.0625rem;">Local Experience Agent</h3>
+          </div>
+          <p>The insider guide. Surfaces hidden gems, must-eat restaurants, cultural etiquette tips, and local events that most tourists never discover from standard travel sites.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:var(--space-2xl);" class="fade-up">
+        <div class="section-label" style="justify-content:center;"><i class="fa-solid fa-users"></i> The Team</div>
+        <h2 class="section-title">Built by Travelers, for Travelers</h2>
+      </div>
+      <div class="grid-3" style="gap:var(--space-lg);">
+        <div style="text-align:center;" class="fade-up">
+          <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--color-primary),#7C3AED);color:#fff;font-size:1.75rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto var(--space-md);">A</div>
+          <h3 style="font-size:1rem;">Arjun Kapoor</h3>
+          <p style="font-size:0.875rem;">Co-founder & CEO</p>
+          <p style="font-size:0.8125rem;margin-top:6px;">Ex-Google PM, visited 40+ countries</p>
+        </div>
+        <div style="text-align:center;" class="fade-up fade-up-delay-2">
+          <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#06B6D4,var(--color-primary));color:#fff;font-size:1.75rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto var(--space-md);">S</div>
+          <h3 style="font-size:1rem;">Sneha Rao</h3>
+          <p style="font-size:0.875rem;">Co-founder & CTO</p>
+          <p style="font-size:0.8125rem;margin-top:6px;">AI researcher, built large-scale agent systems</p>
+        </div>
+        <div style="text-align:center;" class="fade-up fade-up-delay-4">
+          <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#F59E0B,#EF4444);color:#fff;font-size:1.75rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto var(--space-md);">M</div>
+          <h3 style="font-size:1rem;">Mihail Dinu</h3>
+          <p style="font-size:0.875rem;">Head of Design</p>
+          <p style="font-size:0.8125rem;margin-top:6px;">Travel photographer & UX lead</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section--sm">
+    <div class="container">
+      <div style="background:linear-gradient(135deg,var(--color-primary) 0%,#7C3AED 100%);border-radius:var(--radius-xl);padding:var(--space-2xl);text-align:center;">
+        <h2 style="color:#fff;margin-bottom:var(--space-sm);">Ready to Plan Your Next Trip?</h2>
+        <p style="color:rgba(255,255,255,0.8);margin-bottom:var(--space-xl);">Join thousands of travelers who've discovered a better way to plan.</p>
+        <div style="display:flex;gap:var(--space-md);justify-content:center;flex-wrap:wrap;">
+          <a href="signup.html" class="btn btn-lg" style="background:#fff;color:var(--color-primary);"><i class="fa-solid fa-rocket"></i> Get Started Free</a>
+          <a href="planner.html" class="btn btn-lg" style="background:transparent;border:2px solid rgba(255,255,255,0.5);color:#fff;"><i class="fa-solid fa-wand-magic-sparkles"></i> Try the Planner</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom" style="border-top:none;padding-top:0;">
+      <p>© 2026 Travora. All rights reserved.</p>
+      <a href="index.html" class="navbar__logo"><div class="navbar__logo-icon"><i class="fa-solid fa-earth-americas"></i></div><span>Travora</span></a>
+    </div>
+  </div>
+</footer>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<script src="js/theme.js"></script>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:0.1});
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

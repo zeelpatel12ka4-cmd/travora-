@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Explore Destinations — Travora</title>
+  <meta name="description" content="Browse and filter 120+ travel destinations. Find your next adventure with Travora." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/home.css" />
+  <link rel="stylesheet" href="css/planner.css" />
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <div class="navbar__logo-icon"><i class="fa-solid fa-earth-americas"></i></div>
+        <span>Travora</span>
+      </a>
+      <ul class="navbar__links">
+        <li><a href="index.html"    class="navbar__link">Home</a></li>
+        <li><a href="explore.html"  class="navbar__link active">Explore</a></li>
+        <li><a href="my-trips.html" class="navbar__link" id="nav-my-trips">My Trips</a></li>
+        <li><a href="planner.html"  class="navbar__link">AI Planner</a></li>
+        <li><a href="pricing.html"  class="navbar__link">Pricing</a></li>
+        <li><a href="about.html"    class="navbar__link">About Us</a></li>
+      </ul>
+      <div class="navbar__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+        <div id="authNav">
+          <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+          <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+        <div id="userNav" style="display:none; align-items:center; gap:8px;">
+          <div class="user-avatar" id="userAvatar">U</div>
+        </div>
+        <button class="navbar__hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </div>
+  <div class="navbar__mobile-menu" id="mobileMenu">
+    <a href="index.html"    class="navbar__link">Home</a>
+    <a href="explore.html"  class="navbar__link active">Explore</a>
+    <a href="my-trips.html" class="navbar__link">My Trips</a>
+    <a href="planner.html"  class="navbar__link">AI Planner</a>
+    <a href="pricing.html"  class="navbar__link">Pricing</a>
+    <a href="about.html"    class="navbar__link">About Us</a>
+    <div style="border-top:1px solid var(--color-border);padding-top:12px;display:flex;gap:8px;" id="mobileAuthNav">
+      <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+      <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+<main>
+  <!-- Hero -->
+  <div class="page-hero">
+    <div class="container">
+      <div class="section-label" style="justify-content:center;"><i class="fa-solid fa-compass"></i> Discover the World</div>
+      <h1>Explore Destinations</h1>
+      <p>From sun-soaked beaches to snow-capped peaks — find your perfect destination and let AI plan every detail.</p>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="explore-filters">
+    <div class="container">
+      <div class="explore-filters__inner">
+        <div class="filter-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" class="form-input" id="exploreSearch" placeholder="Search destinations…" oninput="filterDestinations()" />
+        </div>
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-filter="all"      onclick="setFilter('all',this)">🌍 All</button>
+          <button class="filter-tab" data-filter="Asia"            onclick="setFilter('Asia',this)">🏯 Asia</button>
+          <button class="filter-tab" data-filter="Europe"          onclick="setFilter('Europe',this)">🏰 Europe</button>
+          <button class="filter-tab" data-filter="Americas"        onclick="setFilter('Americas',this)">🗽 Americas</button>
+          <button class="filter-tab" data-filter="Beaches"         onclick="setFilter('Beaches',this)">🌊 Beaches</button>
+          <button class="filter-tab" data-filter="Mountains"       onclick="setFilter('Mountains',this)">🏔️ Mountains</button>
+          <button class="filter-tab" data-filter="Culture"         onclick="setFilter('Culture',this)">🏛️ Culture</button>
+          <button class="filter-tab" data-filter="Adventure"       onclick="setFilter('Adventure',this)">🧗 Adventure</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="container">
+    <div style="padding:var(--space-lg) 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:var(--space-md);">
+      <p id="resultsCount" style="color:var(--color-text-muted);font-size:0.9375rem;"></p>
+      <select class="form-select" style="width:auto;" id="sortSelect" onchange="sortDestinations()">
+        <option value="rating">Sort: Top Rated</option>
+        <option value="name">Sort: A–Z</option>
+        <option value="popular">Sort: Popular First</option>
+      </select>
+    </div>
+    <div class="explore-grid" id="exploreGrid">
+      <!-- skeleton -->
+      <div class="dest-card skeleton" style="height:300px;"></div>
+      <div class="dest-card skeleton" style="height:300px;"></div>
+      <div class="dest-card skeleton" style="height:300px;"></div>
+      <div class="dest-card skeleton" style="height:300px;"></div>
+      <div class="dest-card skeleton" style="height:300px;"></div>
+      <div class="dest-card skeleton" style="height:300px;"></div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom" style="border-top:none; padding-top:0;">
+      <p>© 2026 Travora. All rights reserved.</p>
+      <a href="index.html" class="navbar__logo"><div class="navbar__logo-icon"><i class="fa-solid fa-earth-americas"></i></div><span>Travora</span></a>
+    </div>
+  </div>
+</footer>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<script src="js/theme.js"></script>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  let allDestinations = [];
+  let activeFilter = 'all';
+
+  async function loadDestinations() {
+    try {
+      const data = await apiGet('/destinations?limit=50');
+      allDestinations = data;
+      renderDestinations(data);
+    } catch(e) {
+      document.getElementById('exploreGrid').innerHTML = `
+        <div class="empty-state" style="grid-column:1/-1;">
+          <span class="empty-state__icon">🌍</span>
+          <h3>Could not load destinations</h3>
+          <p>Make sure the backend is running. <a href="index.html">Go home</a></p>
+        </div>`;
+    }
+  }
+
+  function renderDestinations(list) {
+    const grid = document.getElementById('exploreGrid');
+    document.getElementById('resultsCount').textContent = `${list.length} destination${list.length !== 1 ? 's' : ''} found`;
+    if (!list.length) {
+      grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><span class="empty-state__icon">🔍</span><h3>No destinations found</h3><p>Try a different search or filter.</p></div>`;
+      return;
+    }
+    grid.innerHTML = list.map(d => `
+      <div class="dest-card fade-up" onclick="goToPlanner('${escHtml(d.name)}')">
+        <div class="dest-card__img-wrap">
+          <img src="${escHtml(d.image_url)}" alt="${escHtml(d.name)}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400'" />
+          <div class="dest-card__rating"><i class="fa-solid fa-star"></i> ${d.rating}</div>
+        </div>
+        <div class="dest-card__body">
+          <div class="dest-card__location"><i class="fa-solid fa-location-dot"></i> ${escHtml(d.country)}</div>
+          <div class="dest-card__name">${escHtml(d.name)}</div>
+          <p style="font-size:0.8125rem;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${escHtml(d.description)}</p>
+          <div class="dest-card__tags">${d.tags.slice(0,3).map(t => `<span class="dest-card__tag">${escHtml(t)}</span>`).join('')}</div>
+        </div>
+      </div>`).join('');
+    // trigger fade animations
+    setTimeout(() => document.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible')), 50);
+  }
+
+  function setFilter(filter, btn) {
+    activeFilter = filter;
+    document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterDestinations();
+  }
+
+  function filterDestinations() {
+    const q = document.getElementById('exploreSearch').value.toLowerCase();
+    let list = allDestinations;
+    if (activeFilter !== 'all') {
+      list = list.filter(d =>
+        d.continent === activeFilter ||
+        d.tags.some(t => t.toLowerCase() === activeFilter.toLowerCase())
+      );
+    }
+    if (q) {
+      list = list.filter(d =>
+        d.name.toLowerCase().includes(q) ||
+        d.country.toLowerCase().includes(q) ||
+        d.description.toLowerCase().includes(q) ||
+        d.tags.some(t => t.toLowerCase().includes(q))
+      );
+    }
+    sortList(list);
+  }
+
+  function sortDestinations() { filterDestinations(); }
+
+  function sortList(list) {
+    const sort = document.getElementById('sortSelect').value;
+    const sorted = [...list].sort((a,b) => {
+      if (sort === 'rating')  return b.rating - a.rating;
+      if (sort === 'name')    return a.name.localeCompare(b.name);
+      if (sort === 'popular') return (b.popular ? 1 : 0) - (a.popular ? 1 : 0);
+      return 0;
+    });
+    renderDestinations(sorted);
+  }
+
+  function goToPlanner(dest) {
+    window.location.href = `planner.html?destination=${encodeURIComponent(dest)}`;
+  }
+
+  function escHtml(str) {
+    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  loadDestinations();
+</script>
+</body>
+</html>

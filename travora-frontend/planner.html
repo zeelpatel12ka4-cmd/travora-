@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Trip Planner — Travora</title>
+  <meta name="description" content="Let Travora's multi-agent AI build your personalised day-by-day itinerary in seconds." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/home.css" />
+  <link rel="stylesheet" href="css/planner.css" />
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <div class="navbar__logo-icon"><i class="fa-solid fa-earth-americas"></i></div>
+        <span>Travora</span>
+      </a>
+      <ul class="navbar__links">
+        <li><a href="index.html"    class="navbar__link">Home</a></li>
+        <li><a href="explore.html"  class="navbar__link">Explore</a></li>
+        <li><a href="my-trips.html" class="navbar__link">My Trips</a></li>
+        <li><a href="planner.html"  class="navbar__link active">AI Planner</a></li>
+        <li><a href="pricing.html"  class="navbar__link">Pricing</a></li>
+        <li><a href="about.html"    class="navbar__link">About Us</a></li>
+      </ul>
+      <div class="navbar__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+        <div id="authNav">
+          <a href="login.html?redirect=planner.html" class="btn btn-outline btn-sm">Login</a>
+          <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+        <div id="userNav" style="display:none;align-items:center;gap:8px;"><div class="user-avatar" id="userAvatar">U</div></div>
+        <button class="navbar__hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </div>
+  <div class="navbar__mobile-menu" id="mobileMenu">
+    <a href="index.html" class="navbar__link">Home</a>
+    <a href="explore.html" class="navbar__link">Explore</a>
+    <a href="my-trips.html" class="navbar__link">My Trips</a>
+    <a href="planner.html" class="navbar__link active">AI Planner</a>
+    <a href="pricing.html" class="navbar__link">Pricing</a>
+    <a href="about.html" class="navbar__link">About Us</a>
+    <div style="border-top:1px solid var(--color-border);padding-top:12px;display:flex;gap:8px;" id="mobileAuthNav">
+      <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+      <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+<main>
+  <div class="container">
+    <div class="planner-layout">
+
+      <!-- ── Left: Form Panel ──────────────────────────────── -->
+      <div class="planner-form-panel">
+        <h2><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--color-primary);margin-right:8px;"></i>Plan My Trip</h2>
+        <p>Fill in the details and let our AI agents do the rest.</p>
+
+        <form class="planner-form" id="plannerForm" onsubmit="startPlanning(event)" novalidate>
+
+          <div class="form-group">
+            <label class="form-label" for="destination">
+              <i class="fa-solid fa-location-dot" style="color:var(--color-primary);"></i> Destination *
+            </label>
+            <input type="text" id="destination" class="form-input" placeholder="e.g. Bali, Goa, Tokyo…" required />
+            <span class="form-error" id="destError"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="fromCity">
+              <i class="fa-solid fa-plane-departure" style="color:var(--color-primary);"></i> Departing From *
+            </label>
+            <input type="text" id="fromCity" class="form-input" placeholder="e.g. Mumbai, Delhi, London…" required />
+            <span class="form-error" id="fromError"></span>
+          </div>
+
+          <div class="grid-2" style="gap:var(--space-md);">
+            <div class="form-group">
+              <label class="form-label" for="startDate"><i class="fa-solid fa-calendar" style="color:var(--color-primary);"></i> Start Date *</label>
+              <input type="date" id="startDate" class="form-input" required />
+              <span class="form-error" id="startDateError"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="endDate"><i class="fa-solid fa-calendar-check" style="color:var(--color-primary);"></i> End Date *</label>
+              <input type="date" id="endDate" class="form-input" required />
+              <span class="form-error" id="endDateError"></span>
+            </div>
+          </div>
+
+          <div class="grid-2" style="gap:var(--space-md);">
+            <div class="form-group">
+              <label class="form-label" for="travelers"><i class="fa-solid fa-users" style="color:var(--color-primary);"></i> Travelers</label>
+              <select id="travelers" class="form-select">
+                <option value="1">1 Person</option>
+                <option value="2" selected>2 People</option>
+                <option value="3">3 People</option>
+                <option value="4">4 People</option>
+                <option value="5">5 People</option>
+                <option value="6">6+ People</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="currency"><i class="fa-solid fa-coins" style="color:var(--color-primary);"></i> Currency</label>
+              <select id="currency" class="form-select">
+                <option value="INR" selected>₹ INR</option>
+                <option value="USD">$ USD</option>
+                <option value="EUR">€ EUR</option>
+                <option value="GBP">£ GBP</option>
+                <option value="AED">AED</option>
+                <option value="SGD">SGD</option>
+                <option value="JPY">¥ JPY</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="budget">
+              <i class="fa-solid fa-wallet" style="color:var(--color-primary);"></i> Total Budget *
+            </label>
+            <input type="number" id="budget" class="form-input" placeholder="e.g. 50000" min="1" required />
+            <span class="form-error" id="budgetError"></span>
+          </div>
+
+          <!-- Interests -->
+          <div class="form-group">
+            <label class="form-label"><i class="fa-solid fa-heart" style="color:var(--color-primary);"></i> Interests <span style="font-weight:400;color:var(--color-text-muted);">(optional)</span></label>
+            <div class="interest-grid" id="interestGrid">
+              <button type="button" class="interest-tag" data-interest="Beaches">🌊 Beaches</button>
+              <button type="button" class="interest-tag" data-interest="Mountains">🏔️ Mountains</button>
+              <button type="button" class="interest-tag" data-interest="Culture">🏛️ Culture</button>
+              <button type="button" class="interest-tag" data-interest="Food">🍜 Food</button>
+              <button type="button" class="interest-tag" data-interest="Adventure">🧗 Adventure</button>
+              <button type="button" class="interest-tag" data-interest="Nightlife">🎉 Nightlife</button>
+              <button type="button" class="interest-tag" data-interest="Shopping">🛍️ Shopping</button>
+              <button type="button" class="interest-tag" data-interest="Wellness">🧘 Wellness</button>
+              <button type="button" class="interest-tag" data-interest="Wildlife">🦁 Wildlife</button>
+              <button type="button" class="interest-tag" data-interest="History">🏺 History</button>
+              <button type="button" class="interest-tag" data-interest="Photography">📸 Photography</button>
+              <button type="button" class="interest-tag" data-interest="Family">👨‍👩‍👧 Family</button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width:100%;" id="planBtn">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Generate My Itinerary
+          </button>
+
+          <p style="font-size:0.8rem;text-align:center;color:var(--color-text-muted);">
+            <i class="fa-solid fa-clock"></i> Usually takes 15–30 seconds. Sign in to save your trip.
+          </p>
+        </form>
+      </div>
+
+      <!-- ── Right: Results Panel ──────────────────────────── -->
+      <div class="planner-result-panel" id="resultPanel">
+
+        <!-- Initial prompt state -->
+        <div class="planner-prompt" id="promptState">
+          <div class="planner-prompt__illustration">✈️</div>
+          <h2>Your AI-Planned Itinerary</h2>
+          <p style="max-width:360px;">Fill in the form on the left and hit <strong>Generate</strong>. Four AI agents will collaborate to build your perfect trip in seconds.</p>
+          <div style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:320px;margin-top:var(--space-md);">
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--color-bg-secondary);border-radius:var(--radius-md);font-size:0.875rem;">
+              <i class="fa-solid fa-magnifying-glass-location" style="color:var(--color-primary);width:18px;"></i>
+              <span>Research Agent gathers destination info</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--color-bg-secondary);border-radius:var(--radius-md);font-size:0.875rem;">
+              <i class="fa-solid fa-calendar-days" style="color:var(--color-primary);width:18px;"></i>
+              <span>Itinerary Agent builds your day-by-day plan</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--color-bg-secondary);border-radius:var(--radius-md);font-size:0.875rem;">
+              <i class="fa-solid fa-piggy-bank" style="color:var(--color-primary);width:18px;"></i>
+              <span>Budget Agent optimises your spending</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--color-bg-secondary);border-radius:var(--radius-md);font-size:0.875rem;">
+              <i class="fa-solid fa-map-pin" style="color:var(--color-primary);width:18px;"></i>
+              <span>Local Agent adds hidden gems & food tips</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loading state -->
+        <div class="planner-loading" id="loadingState" style="display:none;">
+          <div class="planner-loading__icon">🤖</div>
+          <h3>AI Agents are working…</h3>
+          <p style="max-width:300px;">Your personalised itinerary is being crafted. This usually takes 15–30 seconds.</p>
+          <div class="planner-loading__steps">
+            <div class="agent-step active" id="step1">
+              <span class="agent-step__dot"></span>
+              <span><strong>Research Agent</strong> — Analysing destination…</span>
+            </div>
+            <div class="agent-step" id="step2">
+              <span class="agent-step__dot"></span>
+              <span><strong>Itinerary Builder</strong> — Creating day-by-day plan…</span>
+            </div>
+            <div class="agent-step" id="step3">
+              <span class="agent-step__dot"></span>
+              <span><strong>Budget Optimizer</strong> — Allocating spend…</span>
+            </div>
+            <div class="agent-step" id="step4">
+              <span class="agent-step__dot"></span>
+              <span><strong>Local Experience Agent</strong> — Finding hidden gems…</span>
+            </div>
+            <div class="agent-step" id="step5">
+              <span class="agent-step__dot"></span>
+              <span><strong>Orchestrator</strong> — Merging final itinerary…</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Itinerary result -->
+        <div id="itineraryResult" style="display:none;"></div>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom" style="border-top:none;padding-top:0;">
+      <p>© 2026 Travora. All rights reserved.</p>
+      <a href="index.html" class="navbar__logo"><div class="navbar__logo-icon"><i class="fa-solid fa-earth-americas"></i></div><span>Travora</span></a>
+    </div>
+  </div>
+</footer>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<script src="js/theme.js"></script>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/planner.js"></script>
+</body>
+</html>

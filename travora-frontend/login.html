@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — Travora</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/planner.css" />
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <div class="navbar__logo-icon"><i class="fa-solid fa-earth-americas"></i></div>
+        <span>Travora</span>
+      </a>
+      <div class="navbar__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+<main>
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-card__logo">
+        <div class="auth-card__logo-icon"><i class="fa-solid fa-earth-americas"></i></div>
+        Travora
+      </div>
+
+      <h2>Welcome back</h2>
+      <p class="auth-card__subtitle">Sign in to your account to continue planning</p>
+
+      <!-- Error/Success banner -->
+      <div id="authBanner" style="display:none; padding:12px 16px; border-radius:var(--radius-md); margin-bottom:var(--space-md); font-size:0.9rem; font-weight:500;"></div>
+
+      <form class="auth-form" id="loginForm" onsubmit="handleLogin(event)" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="email">Email address</label>
+          <div style="position:relative;">
+            <i class="fa-solid fa-envelope" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--color-text-muted);pointer-events:none;"></i>
+            <input
+              type="email"
+              id="email"
+              class="form-input"
+              style="padding-left:40px;"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            />
+          </div>
+          <span class="form-error" id="emailError"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">
+            Password
+            <a href="#" style="margin-left:auto;font-size:0.8125rem;font-weight:500;">Forgot password?</a>
+          </label>
+          <div style="position:relative;">
+            <i class="fa-solid fa-lock" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--color-text-muted);pointer-events:none;"></i>
+            <input
+              type="password"
+              id="password"
+              class="form-input"
+              style="padding-left:40px;padding-right:44px;"
+              placeholder="Your password"
+              autocomplete="current-password"
+              required
+            />
+            <button type="button" onclick="togglePwd('password','eyePwd')" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--color-text-muted);padding:0;">
+              <i class="fa-solid fa-eye" id="eyePwd"></i>
+            </button>
+          </div>
+          <span class="form-error" id="passwordError"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%;margin-top:var(--space-sm);" id="submitBtn">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In
+        </button>
+      </form>
+
+      <div class="auth-switch">
+        Don't have an account? <a href="signup.html" style="font-weight:700;">Sign up free</a>
+      </div>
+
+      <div style="margin-top:var(--space-lg);padding:var(--space-md);background:var(--color-bg-secondary);border-radius:var(--radius-md);font-size:0.8125rem;color:var(--color-text-muted);text-align:center;">
+        <strong>Demo:</strong> Create an account on the <a href="signup.html">signup page</a> to test the full flow.
+      </div>
+    </div>
+  </div>
+</main>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<script src="js/theme.js"></script>
+<script src="js/api.js"></script>
+<script>
+  function togglePwd(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon  = document.getElementById(iconId);
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.className = 'fa-solid fa-eye-slash';
+    } else {
+      input.type = 'password';
+      icon.className = 'fa-solid fa-eye';
+    }
+  }
+
+  function showBanner(msg, type) {
+    const el = document.getElementById('authBanner');
+    el.style.display = 'block';
+    el.textContent = msg;
+    if (type === 'error') {
+      el.style.background = '#FEF2F2';
+      el.style.color = '#DC2626';
+      el.style.border = '1px solid #FECACA';
+    } else {
+      el.style.background = '#F0FDF4';
+      el.style.color = '#16A34A';
+      el.style.border = '1px solid #BBF7D0';
+    }
+  }
+
+  function clearErrors() {
+    ['emailError','passwordError'].forEach(id => document.getElementById(id).textContent = '');
+    document.getElementById('authBanner').style.display = 'none';
+  }
+
+  async function handleLogin(e) {
+    e.preventDefault();
+    clearErrors();
+
+    const email    = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    let valid = true;
+
+    if (!email) { document.getElementById('emailError').textContent = 'Email is required'; valid = false; }
+    if (!password) { document.getElementById('passwordError').textContent = 'Password is required'; valid = false; }
+    if (!valid) return;
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner" style="width:18px;height:18px;border-width:2px;"></span> Signing in…';
+
+    try {
+      const data = await apiPost('/auth/login', { email, password });
+      localStorage.setItem('travora_token', data.access_token);
+      localStorage.setItem('travora_user', JSON.stringify(data.user));
+      showBanner('Signed in successfully! Redirecting…', 'success');
+      const redirect = new URLSearchParams(window.location.search).get('redirect') || 'index.html';
+      setTimeout(() => window.location.href = redirect, 800);
+    } catch(err) {
+      showBanner(err.message || 'Invalid email or password', 'error');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In';
+    }
+  }
+
+  // Redirect if already logged in
+  if (localStorage.getItem('travora_token')) {
+    window.location.href = 'index.html';
+  }
+</script>
+</body>
+</html>

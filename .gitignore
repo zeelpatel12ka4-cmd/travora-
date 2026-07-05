@@ -1,0 +1,15 @@
+# Environment secrets
+# .env
+# travora-backend/.env
+
+# Virtual environment
+venv/
+travora-backend/venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS junk
+.DS_Store
+Thumbs.db

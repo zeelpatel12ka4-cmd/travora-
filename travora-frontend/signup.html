@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up — Travora</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/planner.css" />
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <div class="navbar__logo-icon"><i class="fa-solid fa-earth-americas"></i></div>
+        <span>Travora</span>
+      </a>
+      <div class="navbar__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+<main>
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-card__logo">
+        <div class="auth-card__logo-icon"><i class="fa-solid fa-earth-americas"></i></div>
+        Travora
+      </div>
+
+      <h2>Create your account</h2>
+      <p class="auth-card__subtitle">Start planning AI-powered trips for free</p>
+
+      <div id="authBanner" style="display:none; padding:12px 16px; border-radius:var(--radius-md); margin-bottom:var(--space-md); font-size:0.9rem; font-weight:500;"></div>
+
+      <form class="auth-form" id="signupForm" onsubmit="handleSignup(event)" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="name">Full name</label>
+          <div style="position:relative;">
+            <i class="fa-solid fa-user" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--color-text-muted);pointer-events:none;"></i>
+            <input type="text" id="name" class="form-input" style="padding-left:40px;" placeholder="Rahul Mehta" autocomplete="name" required />
+          </div>
+          <span class="form-error" id="nameError"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">Email address</label>
+          <div style="position:relative;">
+            <i class="fa-solid fa-envelope" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--color-text-muted);pointer-events:none;"></i>
+            <input type="email" id="email" class="form-input" style="padding-left:40px;" placeholder="you@example.com" autocomplete="email" required />
+          </div>
+          <span class="form-error" id="emailError"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <div style="position:relative;">
+            <i class="fa-solid fa-lock" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--color-text-muted);pointer-events:none;"></i>
+            <input type="password" id="password" class="form-input" style="padding-left:40px;padding-right:44px;" placeholder="Min. 8 characters" autocomplete="new-password" required />
+            <button type="button" onclick="togglePwd('password','eyePwd')" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--color-text-muted);padding:0;">
+              <i class="fa-solid fa-eye" id="eyePwd"></i>
+            </button>
+          </div>
+          <span class="form-error" id="passwordError"></span>
+          <!-- Strength meter -->
+          <div id="strengthMeter" style="margin-top:8px; display:none;">
+            <div style="height:4px;background:var(--color-bg-tertiary);border-radius:4px;overflow:hidden;">
+              <div id="strengthBar" style="height:100%;width:0;border-radius:4px;transition:width 0.3s,background 0.3s;"></div>
+            </div>
+            <span id="strengthLabel" style="font-size:0.75rem;color:var(--color-text-muted);margin-top:4px;display:block;"></span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="confirmPassword">Confirm password</label>
+          <div style="position:relative;">
+            <i class="fa-solid fa-lock" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--color-text-muted);pointer-events:none;"></i>
+            <input type="password" id="confirmPassword" class="form-input" style="padding-left:40px;" placeholder="Repeat your password" autocomplete="new-password" required />
+          </div>
+          <span class="form-error" id="confirmError"></span>
+        </div>
+
+        <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.875rem;color:var(--color-text-muted);">
+          <input type="checkbox" id="terms" style="margin-top:3px;accent-color:var(--color-primary);" required />
+          I agree to the <a href="#" style="margin:0 2px;font-weight:600;">Terms of Service</a> and <a href="#" style="margin:0 2px;font-weight:600;">Privacy Policy</a>
+        </label>
+        <span class="form-error" id="termsError"></span>
+
+        <button type="submit" class="btn btn-primary" style="width:100%;margin-top:var(--space-sm);" id="submitBtn">
+          <i class="fa-solid fa-user-plus"></i> Create Account
+        </button>
+      </form>
+
+      <div class="auth-switch">
+        Already have an account? <a href="login.html" style="font-weight:700;">Sign in</a>
+      </div>
+    </div>
+  </div>
+</main>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<script src="js/theme.js"></script>
+<script src="js/api.js"></script>
+<script>
+  function togglePwd(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon  = document.getElementById(iconId);
+    input.type = input.type === 'password' ? 'text' : 'password';
+    icon.className = input.type === 'password' ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
+  }
+
+  // Password strength
+  document.getElementById('password').addEventListener('input', function() {
+    const pwd = this.value;
+    const meter = document.getElementById('strengthMeter');
+    const bar   = document.getElementById('strengthBar');
+    const label = document.getElementById('strengthLabel');
+    if (!pwd) { meter.style.display = 'none'; return; }
+    meter.style.display = 'block';
+
+    let score = 0;
+    if (pwd.length >= 8)  score++;
+    if (/[A-Z]/.test(pwd)) score++;
+    if (/[0-9]/.test(pwd)) score++;
+    if (/[^A-Za-z0-9]/.test(pwd)) score++;
+
+    const levels = [
+      { width:'25%', color:'#EF4444', text:'Weak' },
+      { width:'50%', color:'#F59E0B', text:'Fair' },
+      { width:'75%', color:'#3B82F6', text:'Good' },
+      { width:'100%',color:'#22C55E', text:'Strong' },
+    ];
+    const lvl = levels[score - 1] || levels[0];
+    bar.style.width   = lvl.width;
+    bar.style.background = lvl.color;
+    label.textContent = lvl.text;
+    label.style.color = lvl.color;
+  });
+
+  function showBanner(msg, type) {
+    const el = document.getElementById('authBanner');
+    el.style.display = 'block';
+    el.textContent = msg;
+    el.style.background = type === 'error' ? '#FEF2F2' : '#F0FDF4';
+    el.style.color = type === 'error' ? '#DC2626' : '#16A34A';
+    el.style.border = type === 'error' ? '1px solid #FECACA' : '1px solid #BBF7D0';
+  }
+
+  function clearErrors() {
+    ['nameError','emailError','passwordError','confirmError','termsError'].forEach(id => {
+      document.getElementById(id).textContent = '';
+    });
+    document.getElementById('authBanner').style.display = 'none';
+  }
+
+  async function handleSignup(e) {
+    e.preventDefault();
+    clearErrors();
+
+    const name    = document.getElementById('name').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const confirm  = document.getElementById('confirmPassword').value;
+    const terms    = document.getElementById('terms').checked;
+    let valid = true;
+
+    if (!name || name.length < 2)          { document.getElementById('nameError').textContent = 'Name must be at least 2 characters'; valid = false; }
+    if (!email || !email.includes('@'))    { document.getElementById('emailError').textContent = 'Please enter a valid email'; valid = false; }
+    if (!password || password.length < 8) { document.getElementById('passwordError').textContent = 'Password must be at least 8 characters'; valid = false; }
+    if (password !== confirm)              { document.getElementById('confirmError').textContent = 'Passwords do not match'; valid = false; }
+    if (!terms)                            { document.getElementById('termsError').textContent = 'You must accept the terms'; valid = false; }
+    if (!valid) return;
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner" style="width:18px;height:18px;border-width:2px;"></span> Creating account…';
+
+    try {
+      const data = await apiPost('/auth/signup', { name, email, password });
+      localStorage.setItem('travora_token', data.access_token);
+      localStorage.setItem('travora_user', JSON.stringify(data.user));
+      showBanner('Account created! Redirecting to the AI Planner…', 'success');
+      setTimeout(() => window.location.href = 'planner.html', 1000);
+    } catch(err) {
+      showBanner(err.message || 'Sign up failed. Please try again.', 'error');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-user-plus"></i> Create Account';
+    }
+  }
+
+  if (localStorage.getItem('travora_token')) {
+    window.location.href = 'index.html';
+  }
+</script>
+</body>
+</html>

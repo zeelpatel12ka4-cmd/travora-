@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Travora — Your Dream Trip, Planned by AI</title>
+  <meta name="description" content="Travora uses a multi-agent AI system to build personalized day-by-day travel itineraries tailored to your budget, interests, and travel style." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/home.css" />
+</head>
+<body>
+
+<!-- ── Navbar ────────────────────────────────────────────────── -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <div class="navbar__logo-icon"><i class="fa-solid fa-earth-americas"></i></div>
+        <span>Travora</span>
+      </a>
+
+      <ul class="navbar__links">
+        <li><a href="index.html"      class="navbar__link active">Home</a></li>
+        <li><a href="explore.html"    class="navbar__link">Explore</a></li>
+        <li><a href="my-trips.html"   class="navbar__link" id="nav-my-trips">My Trips</a></li>
+        <li><a href="planner.html"    class="navbar__link">AI Planner</a></li>
+        <li><a href="pricing.html"    class="navbar__link">Pricing</a></li>
+        <li><a href="about.html"      class="navbar__link">About Us</a></li>
+      </ul>
+
+      <div class="navbar__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+          <i class="fa-solid fa-moon" id="themeIcon"></i>
+        </button>
+        <div id="authNav">
+          <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+          <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+        <div id="userNav" style="display:none; align-items:center; gap:8px;">
+          <div class="user-avatar" id="userAvatar" title="My Account">U</div>
+        </div>
+        <button class="navbar__hamburger" id="hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="navbar__mobile-menu" id="mobileMenu">
+    <a href="index.html"    class="navbar__link active">Home</a>
+    <a href="explore.html"  class="navbar__link">Explore</a>
+    <a href="my-trips.html" class="navbar__link">My Trips</a>
+    <a href="planner.html"  class="navbar__link">AI Planner</a>
+    <a href="pricing.html"  class="navbar__link">Pricing</a>
+    <a href="about.html"    class="navbar__link">About Us</a>
+    <div style="border-top:1px solid var(--color-border); padding-top:12px; display:flex; gap:8px; flex-wrap:wrap;" id="mobileAuthNav">
+      <a href="login.html"  class="btn btn-outline btn-sm">Login</a>
+      <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+<main>
+
+  <!-- ── Hero ──────────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero__inner">
+
+        <!-- Left -->
+        <div class="hero__content fade-up">
+          <div class="hero__badge">
+            <span class="hero__badge-dot"></span>
+            AI-Powered Travel Planner
+          </div>
+
+          <h1 class="hero__title">
+            Plan Your<br/>
+            <span class="highlight">Dream Trip</span><br/>
+            with AI
+          </h1>
+
+          <p class="hero__subtitle">
+            Tell us where you want to go. Our multi-agent AI builds a personalised,
+            day-by-day itinerary — with budget breakdown, hidden gems, and local tips —
+            in seconds.
+          </p>
+
+          <div class="hero__cta">
+            <a href="planner.html" class="btn btn-primary btn-lg">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Start Planning Free
+            </a>
+            <a href="explore.html" class="btn btn-outline btn-lg">
+              <i class="fa-solid fa-compass"></i> Explore Destinations
+            </a>
+          </div>
+
+          <div class="hero__stats">
+            <div class="hero__stat">
+              <strong>50K+</strong>
+              <span>Trips Planned</span>
+            </div>
+            <div class="hero__stat">
+              <strong>120+</strong>
+              <span>Destinations</span>
+            </div>
+            <div class="hero__stat">
+              <strong>4.9★</strong>
+              <span>User Rating</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right -->
+        <div class="hero__visual fade-up fade-up-delay-2">
+          <img
+            src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80"
+            alt="Beautiful travel destination"
+            class="hero__image"
+            loading="eager"
+          />
+          <div class="hero__floating-card hero__floating-card--1">
+            <div class="icon"><i class="fa-solid fa-route"></i></div>
+            <div>
+              <div style="font-size:0.75rem;color:var(--color-text-muted);">Itinerary generated</div>
+              <div>Bali, 7 Days ✈️</div>
+            </div>
+          </div>
+          <div class="hero__floating-card hero__floating-card--2">
+            <div class="icon"><i class="fa-solid fa-piggy-bank"></i></div>
+            <div>
+              <div style="font-size:0.75rem;color:var(--color-text-muted);">Budget saved</div>
+              <div>₹12,400 optimised</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Search Widget -->
+    <div class="container" style="padding-bottom: var(--space-3xl);">
+      <div class="search-widget fade-up fade-up-delay-3">
+        <div class="search-widget__title">
+          <i class="fa-solid fa-magnifying-glass" style="color:var(--color-primary);margin-right:8px;"></i>
+          Where do you want to go?
+        </div>
+        <form class="search-widget__grid" id="searchForm" onsubmit="handleSearch(event)">
+          <div class="search-field">
+            <label><i class="fa-solid fa-location-dot"></i> Destination</label>
+            <input type="text" id="searchDest" placeholder="Goa, Bali, Paris…" />
+          </div>
+          <div class="search-field">
+            <label><i class="fa-solid fa-plane-departure"></i> From</label>
+            <input type="text" id="searchFrom" placeholder="Mumbai, Delhi…" />
+          </div>
+          <div class="search-field">
+            <label><i class="fa-solid fa-calendar"></i> Dates</label>
+            <input type="date" id="searchStartDate" />
+          </div>
+          <div class="search-field">
+            <label><i class="fa-solid fa-users"></i> Travelers</label>
+            <select id="searchTravelers">
+              <option value="1">1 Person</option>
+              <option value="2" selected>2 People</option>
+              <option value="3">3 People</option>
+              <option value="4">4 People</option>
+              <option value="5+">5+ People</option>
+            </select>
+          </div>
+          <div class="search-field">
+            <label><i class="fa-solid fa-wallet"></i> Budget</label>
+            <input type="text" id="searchBudget" placeholder="₹50,000" />
+          </div>
+          <button type="submit" class="btn btn-primary search-widget__btn">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Plan My Trip
+          </button>
+        </form>
+
+        <div class="popular-searches">
+          <span class="popular-searches__label">Popular:</span>
+          <button class="popular-chip" onclick="quickSearch('Goa')">🌊 Goa</button>
+          <button class="popular-chip" onclick="quickSearch('Manali')">🏔️ Manali</button>
+          <button class="popular-chip" onclick="quickSearch('Bali')">🌴 Bali</button>
+          <button class="popular-chip" onclick="quickSearch('Dubai')">🏙️ Dubai</button>
+          <button class="popular-chip" onclick="quickSearch('Thailand')">🐘 Thailand</button>
+          <button class="popular-chip" onclick="quickSearch('Santorini')">🏛️ Santorini</button>
+          <button class="popular-chip" onclick="quickSearch('Tokyo')">🗼 Tokyo</button>
+          <button class="popular-chip" onclick="quickSearch('Maldives')">🤿 Maldives</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Feature Strip ───────────────────────────────────────── -->
+  <section class="features section--sm">
+    <div class="container">
+      <div class="features__grid">
+        <div class="feature-item fade-up">
+          <div class="feature-item__icon"><i class="fa-solid fa-brain"></i></div>
+          <h3>AI Trip Planner</h3>
+          <p>Multi-agent AI builds your itinerary end-to-end in seconds</p>
+        </div>
+        <div class="feature-item fade-up fade-up-delay-1">
+          <div class="feature-item__icon"><i class="fa-solid fa-piggy-bank"></i></div>
+          <h3>Budget Friendly</h3>
+          <p>Smart budget allocation across flights, hotels, food & activities</p>
+        </div>
+        <div class="feature-item fade-up fade-up-delay-2">
+          <div class="feature-item__icon"><i class="fa-solid fa-sliders"></i></div>
+          <h3>Personalised</h3>
+          <p>Every trip tailored to your interests, pace, and travel style</p>
+        </div>
+        <div class="feature-item fade-up fade-up-delay-3">
+          <div class="feature-item__icon"><i class="fa-solid fa-bolt"></i></div>
+          <h3>Real-time Updates</h3>
+          <p>Live weather, local events, and safety updates for your dates</p>
+        </div>
+        <div class="feature-item fade-up fade-up-delay-4">
+          <div class="feature-item__icon"><i class="fa-solid fa-headset"></i></div>
+          <h3>24/7 AI Support</h3>
+          <p>Ask anything about your trip — Travora's AI is always available</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Popular Destinations ────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div>
+          <div class="section-label"><i class="fa-solid fa-fire"></i> Trending Now</div>
+          <h2 class="section-title">Popular Destinations</h2>
+          <p class="section-subtitle">Explore top-rated destinations loved by thousands of Travora users</p>
+        </div>
+        <a href="explore.html" class="btn btn-outline btn-sm">View All <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+
+      <div class="destinations__grid" id="destinationsGrid">
+        <!-- Populated by home.js -->
+        <div class="dest-card skeleton" style="height:300px;"></div>
+        <div class="dest-card skeleton" style="height:300px;"></div>
+        <div class="dest-card skeleton" style="height:300px;"></div>
+        <div class="dest-card skeleton" style="height:300px;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── How It Works ────────────────────────────────────────── -->
+  <section class="section how-it-works">
+    <div class="container">
+      <div class="section-header fade-up" style="justify-content:center; text-align:center; flex-direction:column; align-items:center;">
+        <div class="section-label"><i class="fa-solid fa-gears"></i> The Magic Behind Travora</div>
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">Our multi-agent AI system plans your trip in 3 simple steps</p>
+      </div>
+
+      <div class="how-it-works__grid">
+        <div class="step-card fade-up">
+          <div class="step-card__number">1</div>
+          <div class="step-card__icon"><i class="fa-solid fa-location-dot"></i></div>
+          <h3>Tell Us Your Dream</h3>
+          <p>Enter your destination, dates, budget, and travel interests. That's all we need to get started.</p>
+        </div>
+        <div class="step-card fade-up fade-up-delay-2">
+          <div class="step-card__number">2</div>
+          <div class="step-card__icon"><i class="fa-solid fa-robot"></i></div>
+          <h3>AI Agents Go to Work</h3>
+          <p>Four specialised agents — Research, Itinerary, Budget, and Local Experience — collaborate in parallel to plan every detail.</p>
+        </div>
+        <div class="step-card fade-up fade-up-delay-4">
+          <div class="step-card__number">3</div>
+          <div class="step-card__icon"><i class="fa-solid fa-suitcase-rolling"></i></div>
+          <h3>Pack & Go</h3>
+          <p>Review your personalised itinerary, tweak it, save it, and share it. Your dream trip is ready.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Testimonials ────────────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header fade-up" style="justify-content:center; text-align:center; flex-direction:column; align-items:center;">
+        <div class="section-label"><i class="fa-solid fa-star"></i> Loved by Travelers</div>
+        <h2 class="section-title">What Our Users Say</h2>
+      </div>
+
+      <div class="testimonials__grid">
+        <div class="testimonial-card fade-up">
+          <div class="testimonial-card__stars">★★★★★</div>
+          <p class="testimonial-card__text">"Travora planned our entire Bali honeymoon in under a minute. Every restaurant, every temple, every hidden beach — it nailed it. We didn't change a single thing."</p>
+          <div class="testimonial-card__author">
+            <div class="testimonial-card__avatar">P</div>
+            <div class="testimonial-card__author-info">
+              <strong>Priya Sharma</strong>
+              <span>Bali, 7 days</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card fade-up fade-up-delay-2">
+          <div class="testimonial-card__stars">★★★★★</div>
+          <p class="testimonial-card__text">"The budget breakdown was genuinely impressive. Told it ₹45k for two in Goa and it came in under budget with the perfect mix of beach clubs and chill days."</p>
+          <div class="testimonial-card__author">
+            <div class="testimonial-card__avatar">R</div>
+            <div class="testimonial-card__author-info">
+              <strong>Rahul Mehta</strong>
+              <span>Goa, 5 days</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card fade-up fade-up-delay-4">
+          <div class="testimonial-card__stars">★★★★★</div>
+          <p class="testimonial-card__text">"Solo Tokyo trip sorted in seconds. The local tips section had restaurants I never would have found on TripAdvisor. This is how travel planning should feel."</p>
+          <div class="testimonial-card__author">
+            <div class="testimonial-card__avatar">A</div>
+            <div class="testimonial-card__author-info">
+              <strong>Anika Patel</strong>
+              <span>Tokyo, 10 days</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA Banner ──────────────────────────────────────────── -->
+  <section class="section--sm">
+    <div class="container">
+      <div style="background: linear-gradient(135deg, var(--color-primary) 0%, #7C3AED 100%); border-radius: var(--radius-xl); padding: var(--space-2xl); text-align: center; position:relative; overflow:hidden;">
+        <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:rgba(255,255,255,0.05);border-radius:50%;"></div>
+        <div style="position:absolute;bottom:-60px;left:-30px;width:160px;height:160px;background:rgba(255,255,255,0.05);border-radius:50%;"></div>
+        <div style="position:relative;z-index:1;">
+          <h2 style="color:#fff;font-size:clamp(1.5rem,3vw,2.25rem);margin-bottom:var(--space-sm);">Ready for Your Next Adventure?</h2>
+          <p style="color:rgba(255,255,255,0.8);font-size:1.0625rem;margin-bottom:var(--space-xl);max-width:480px;margin-left:auto;margin-right:auto;">Join 50,000+ travelers who use Travora to plan smarter, stress-free trips.</p>
+          <div style="display:flex;gap:var(--space-md);justify-content:center;flex-wrap:wrap;">
+            <a href="signup.html" class="btn btn-lg" style="background:#fff;color:var(--color-primary);box-shadow:0 4px 20px rgba(0,0,0,0.15);">
+              <i class="fa-solid fa-rocket"></i> Get Started Free
+            </a>
+            <a href="planner.html" class="btn btn-lg" style="background:transparent;border:2px solid rgba(255,255,255,0.5);color:#fff;">
+              <i class="fa-solid fa-play"></i> Try the Planner
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── Footer ────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a href="index.html" class="navbar__logo" style="justify-content:flex-start;">
+          <div class="navbar__logo-icon"><i class="fa-solid fa-earth-americas"></i></div>
+          <span>Travora</span>
+        </a>
+        <p>Your dream trip, planned by AI. Multi-agent technology that builds personalised itineraries in seconds.</p>
+      </div>
+      <div>
+        <div class="footer__col-title">Product</div>
+        <ul class="footer__links">
+          <li><a href="planner.html">AI Planner</a></li>
+          <li><a href="explore.html">Explore</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="my-trips.html">My Trips</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Company</div>
+        <ul class="footer__links">
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Legal</div>
+        <ul class="footer__links">
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p>© 2026 Travora. All rights reserved.</p>
+      <div class="footer__socials">
+        <a href="#" class="footer__social-btn" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#" class="footer__social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" class="footer__social-btn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="#" class="footer__social-btn" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</div><!-- end page-wrapper -->
+
+<!-- Toast container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="js/theme.js"></script>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/home.js"></script>
+<script>
+  // Search widget → navigate to planner with params
+  function handleSearch(e) {
+    e.preventDefault();
+    const dest = document.getElementById('searchDest').value.trim();
+    if (!dest) { showToast('Please enter a destination', 'error'); return; }
+    const from   = document.getElementById('searchFrom').value.trim();
+    const date   = document.getElementById('searchStartDate').value;
+    const people = document.getElementById('searchTravelers').value;
+    const budget = document.getElementById('searchBudget').value.trim().replace(/[^0-9]/g, '');
+    const params = new URLSearchParams({ destination: dest, from, date, travelers: people, budget });
+    window.location.href = `planner.html?${params.toString()}`;
+  }
+
+  function quickSearch(dest) {
+    document.getElementById('searchDest').value = dest;
+    document.getElementById('searchDest').focus();
+  }
+</script>
+</body>
+</html>

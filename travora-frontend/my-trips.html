@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Trips — Travora</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/planner.css" />
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <div class="navbar__logo-icon"><i class="fa-solid fa-earth-americas"></i></div>
+        <span>Travora</span>
+      </a>
+      <ul class="navbar__links">
+        <li><a href="index.html"    class="navbar__link">Home</a></li>
+        <li><a href="explore.html"  class="navbar__link">Explore</a></li>
+        <li><a href="my-trips.html" class="navbar__link active">My Trips</a></li>
+        <li><a href="planner.html"  class="navbar__link">AI Planner</a></li>
+        <li><a href="pricing.html"  class="navbar__link">Pricing</a></li>
+        <li><a href="about.html"    class="navbar__link">About Us</a></li>
+      </ul>
+      <div class="navbar__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+        <div id="authNav">
+          <a href="login.html?redirect=my-trips.html" class="btn btn-outline btn-sm">Login</a>
+          <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+        <div id="userNav" style="display:none;align-items:center;gap:8px;"><div class="user-avatar" id="userAvatar">U</div></div>
+        <button class="navbar__hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </div>
+  <div class="navbar__mobile-menu" id="mobileMenu">
+    <a href="index.html" class="navbar__link">Home</a>
+    <a href="explore.html" class="navbar__link">Explore</a>
+    <a href="my-trips.html" class="navbar__link active">My Trips</a>
+    <a href="planner.html" class="navbar__link">AI Planner</a>
+    <a href="pricing.html" class="navbar__link">Pricing</a>
+    <a href="about.html" class="navbar__link">About Us</a>
+    <div style="border-top:1px solid var(--color-border);padding-top:12px;display:flex;gap:8px;" id="mobileAuthNav">
+      <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+      <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+<main>
+  <div class="page-hero">
+    <div class="container">
+      <div class="section-label" style="justify-content:center;"><i class="fa-solid fa-suitcase"></i> Your Travel History</div>
+      <h1>My Trips</h1>
+      <p id="heroSubtitle">View and manage all your AI-planned itineraries.</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Toolbar -->
+    <div style="padding:var(--space-lg) 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:var(--space-md);">
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <button class="filter-tab active" onclick="setStatusFilter('all',this)">All</button>
+        <button class="filter-tab" onclick="setStatusFilter('generated',this)">Generated</button>
+        <button class="filter-tab" onclick="setStatusFilter('draft',this)">Drafts</button>
+        <button class="filter-tab" onclick="setStatusFilter('booked',this)">Booked</button>
+      </div>
+      <a href="planner.html" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-plus"></i> Plan New Trip
+      </a>
+    </div>
+
+    <!-- Auth wall for non-logged users -->
+    <div id="authWall" style="display:none;">
+      <div class="empty-state">
+        <span class="empty-state__icon">🔐</span>
+        <h3>Sign in to see your trips</h3>
+        <p>Create an account to save and manage all your AI-planned itineraries.</p>
+        <div style="display:flex;gap:var(--space-md);justify-content:center;flex-wrap:wrap;">
+          <a href="login.html?redirect=my-trips.html" class="btn btn-primary">Sign In</a>
+          <a href="signup.html" class="btn btn-outline">Create Account</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading skeleton -->
+    <div id="tripsLoading" class="trips-grid" style="display:none;">
+      <div class="skeleton" style="height:220px;border-radius:var(--radius-xl);"></div>
+      <div class="skeleton" style="height:220px;border-radius:var(--radius-xl);"></div>
+      <div class="skeleton" style="height:220px;border-radius:var(--radius-xl);"></div>
+    </div>
+
+    <!-- Trips grid -->
+    <div class="trips-grid" id="tripsGrid"></div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom" style="border-top:none;padding-top:0;">
+      <p>© 2026 Travora. All rights reserved.</p>
+      <a href="index.html" class="navbar__logo"><div class="navbar__logo-icon"><i class="fa-solid fa-earth-americas"></i></div><span>Travora</span></a>
+    </div>
+  </div>
+</footer>
+</div>
+
+<!-- Delete confirmation modal -->
+<div id="deleteModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9000;display:none;align-items:center;justify-content:center;padding:var(--space-lg);">
+  <div style="background:var(--color-bg);border-radius:var(--radius-xl);padding:var(--space-xl);max-width:400px;width:100%;box-shadow:var(--shadow-xl);">
+    <h3 style="margin-bottom:var(--space-sm);">Delete Trip?</h3>
+    <p style="margin-bottom:var(--space-xl);">This action cannot be undone. Your itinerary will be permanently deleted.</p>
+    <div style="display:flex;gap:var(--space-md);">
+      <button class="btn btn-outline" style="flex:1;" onclick="closeDeleteModal()">Cancel</button>
+      <button class="btn btn-primary" style="flex:1;background:#EF4444;border-color:#EF4444;" id="confirmDeleteBtn">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<script src="js/theme.js"></script>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/trips.js"></script>
+</body>
+</html>

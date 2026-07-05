@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pricing — Travora</title>
+  <meta name="description" content="Choose the plan that fits your travel style. Free, Pro, and Enterprise options available." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/planner.css" />
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <div class="navbar__logo-icon"><i class="fa-solid fa-earth-americas"></i></div>
+        <span>Travora</span>
+      </a>
+      <ul class="navbar__links">
+        <li><a href="index.html"    class="navbar__link">Home</a></li>
+        <li><a href="explore.html"  class="navbar__link">Explore</a></li>
+        <li><a href="my-trips.html" class="navbar__link">My Trips</a></li>
+        <li><a href="planner.html"  class="navbar__link">AI Planner</a></li>
+        <li><a href="pricing.html"  class="navbar__link active">Pricing</a></li>
+        <li><a href="about.html"    class="navbar__link">About Us</a></li>
+      </ul>
+      <div class="navbar__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+        <div id="authNav">
+          <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+          <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+        <div id="userNav" style="display:none; align-items:center; gap:8px;"><div class="user-avatar" id="userAvatar">U</div></div>
+        <button class="navbar__hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </div>
+  <div class="navbar__mobile-menu" id="mobileMenu">
+    <a href="index.html"    class="navbar__link">Home</a>
+    <a href="explore.html"  class="navbar__link">Explore</a>
+    <a href="my-trips.html" class="navbar__link">My Trips</a>
+    <a href="planner.html"  class="navbar__link">AI Planner</a>
+    <a href="pricing.html"  class="navbar__link active">Pricing</a>
+    <a href="about.html"    class="navbar__link">About Us</a>
+    <div style="border-top:1px solid var(--color-border);padding-top:12px;display:flex;gap:8px;" id="mobileAuthNav">
+      <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+      <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+<main>
+  <!-- Hero -->
+  <div class="page-hero">
+    <div class="container">
+      <div class="section-label" style="justify-content:center;"><i class="fa-solid fa-tag"></i> Simple Pricing</div>
+      <h1>Plans for Every Traveler</h1>
+      <p>Start free, upgrade when you need more. No hidden fees, cancel any time.</p>
+      <!-- Billing toggle -->
+      <div style="display:flex;align-items:center;justify-content:center;gap:var(--space-md);margin-top:var(--space-xl);">
+        <span style="font-weight:600;color:var(--color-text);">Monthly</span>
+        <label style="position:relative;display:inline-block;width:52px;height:28px;">
+          <input type="checkbox" id="billingToggle" onchange="toggleBilling()" style="opacity:0;width:0;height:0;" />
+          <span style="position:absolute;inset:0;background:var(--color-primary);border-radius:14px;cursor:pointer;transition:0.3s;"></span>
+          <span id="toggleThumb" style="position:absolute;left:4px;top:4px;width:20px;height:20px;background:#fff;border-radius:50%;transition:0.3s;"></span>
+        </label>
+        <span style="font-weight:600;color:var(--color-text);">Annual <span class="badge badge-success" style="font-size:0.75rem;">Save 30%</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pricing Cards -->
+  <section class="section">
+    <div class="container">
+      <div class="pricing-grid">
+
+        <!-- Free -->
+        <div class="pricing-card fade-up">
+          <div class="pricing-card__plan">Free</div>
+          <div class="pricing-card__price">₹0<span>/mo</span></div>
+          <p class="pricing-card__desc">Perfect for occasional travelers trying Travora for the first time.</p>
+          <ul class="pricing-features">
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> 3 AI itineraries/month</li>
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> Up to 7-day trips</li>
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> Basic budget breakdown</li>
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> Destination research</li>
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> Save trips to account</li>
+            <li class="pricing-feature pricing-feature--disabled"><i class="fa-solid fa-xmark"></i> Local hidden gems</li>
+            <li class="pricing-feature pricing-feature--disabled"><i class="fa-solid fa-xmark"></i> Multi-city trips</li>
+            <li class="pricing-feature pricing-feature--disabled"><i class="fa-solid fa-xmark"></i> PDF export</li>
+            <li class="pricing-feature pricing-feature--disabled"><i class="fa-solid fa-xmark"></i> Priority AI generation</li>
+          </ul>
+          <a href="signup.html" class="btn btn-outline" style="width:100%;">Get Started Free</a>
+        </div>
+
+        <!-- Pro (featured) -->
+        <div class="pricing-card pricing-card--featured fade-up fade-up-delay-2">
+          <div class="pricing-card__plan">Pro</div>
+          <div class="pricing-card__price" id="proPrice">₹<span id="proPriceVal">799</span><span>/mo</span></div>
+          <p class="pricing-card__desc">For frequent travelers who want the full Travora experience.</p>
+          <ul class="pricing-features">
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> Unlimited itineraries</li>
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> Trips up to 30 days</li>
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> Full budget optimizer</li>
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> Local hidden gems & food</li>
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> Multi-city trip planning</li>
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> PDF & shareable links</li>
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> Priority AI generation</li>
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> Trip regeneration</li>
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> Email itinerary delivery</li>
+          </ul>
+          <a href="signup.html" class="btn btn-primary" style="width:100%;">Start Pro — 7 Days Free</a>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="pricing-card fade-up fade-up-delay-4">
+          <div class="pricing-card__plan">Enterprise</div>
+          <div class="pricing-card__price">Custom</div>
+          <p class="pricing-card__desc">For travel agencies, corporates, and teams planning at scale.</p>
+          <ul class="pricing-features">
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> Everything in Pro</li>
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> Team collaboration</li>
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> White-label option</li>
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> API access</li>
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> Custom LLM models</li>
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> Dedicated account manager</li>
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> SLA & uptime guarantee</li>
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> Custom integrations</li>
+            <li class="pricing-feature"><i class="fa-solid fa-check"></i> Volume discounts</li>
+          </ul>
+          <a href="about.html" class="btn btn-outline" style="width:100%;">Contact Sales</a>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div style="max-width:720px;margin:var(--space-3xl) auto 0;">
+        <h2 style="text-align:center;margin-bottom:var(--space-xl);">Frequently Asked Questions</h2>
+        <div style="display:flex;flex-direction:column;gap:var(--space-md);">
+          <div class="faq-item card" style="padding:var(--space-lg);">
+            <button onclick="toggleFaq(this)" style="width:100%;text-align:left;display:flex;justify-content:space-between;align-items:center;background:none;border:none;cursor:pointer;padding:0;">
+              <span style="font-weight:700;color:var(--color-text);font-size:1rem;">How does the AI trip planning actually work?</span>
+              <i class="fa-solid fa-chevron-down" style="color:var(--color-primary);transition:transform 0.25s;"></i>
+            </button>
+            <div class="faq-body" style="display:none;margin-top:var(--space-md);">
+              <p>Travora uses a multi-agent AI system. When you submit a trip request, four specialised agents work together: a Research Agent gathers destination intelligence, an Itinerary Builder creates your day-by-day plan, a Budget Optimizer allocates your spend, and a Local Experience Agent adds food tips and hidden gems.</p>
+            </div>
+          </div>
+          <div class="faq-item card" style="padding:var(--space-lg);">
+            <button onclick="toggleFaq(this)" style="width:100%;text-align:left;display:flex;justify-content:space-between;align-items:center;background:none;border:none;cursor:pointer;padding:0;">
+              <span style="font-weight:700;color:var(--color-text);font-size:1rem;">Can I edit the generated itinerary?</span>
+              <i class="fa-solid fa-chevron-down" style="color:var(--color-primary);transition:transform 0.25s;"></i>
+            </button>
+            <div class="faq-body" style="display:none;margin-top:var(--space-md);">
+              <p>Yes! Every itinerary is fully editable. You can also regenerate specific parts or the whole plan if you want a different approach. Pro users can regenerate unlimited times.</p>
+            </div>
+          </div>
+          <div class="faq-item card" style="padding:var(--space-lg);">
+            <button onclick="toggleFaq(this)" style="width:100%;text-align:left;display:flex;justify-content:space-between;align-items:center;background:none;border:none;cursor:pointer;padding:0;">
+              <span style="font-weight:700;color:var(--color-text);font-size:1rem;">Does Travora book flights and hotels?</span>
+              <i class="fa-solid fa-chevron-down" style="color:var(--color-primary);transition:transform 0.25s;"></i>
+            </button>
+            <div class="faq-body" style="display:none;margin-top:var(--space-md);">
+              <p>Not directly in the current version — Travora focuses on building the perfect plan and providing booking recommendations. Actual booking integration (flights, hotels) is on our Phase 2 roadmap.</p>
+            </div>
+          </div>
+          <div class="faq-item card" style="padding:var(--space-lg);">
+            <button onclick="toggleFaq(this)" style="width:100%;text-align:left;display:flex;justify-content:space-between;align-items:center;background:none;border:none;cursor:pointer;padding:0;">
+              <span style="font-weight:700;color:var(--color-text);font-size:1rem;">Can I cancel my Pro subscription at any time?</span>
+              <i class="fa-solid fa-chevron-down" style="color:var(--color-primary);transition:transform 0.25s;"></i>
+            </button>
+            <div class="faq-body" style="display:none;margin-top:var(--space-md);">
+              <p>Yes, cancel anytime with no questions asked. You'll retain Pro access until the end of your billing period. Your saved trips are always yours, regardless of plan.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom" style="border-top:none;padding-top:0;">
+      <p>© 2026 Travora. All rights reserved.</p>
+      <a href="index.html" class="navbar__logo"><div class="navbar__logo-icon"><i class="fa-solid fa-earth-americas"></i></div><span>Travora</span></a>
+    </div>
+  </div>
+</footer>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<script src="js/theme.js"></script>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  let isAnnual = false;
+  function toggleBilling() {
+    isAnnual = document.getElementById('billingToggle').checked;
+    document.getElementById('toggleThumb').style.transform = isAnnual ? 'translateX(24px)' : 'translateX(0)';
+    document.getElementById('proPriceVal').textContent = isAnnual ? '559' : '799';
+  }
+  function toggleFaq(btn) {
+    const body = btn.nextElementSibling;
+    const icon = btn.querySelector('i');
+    const open = body.style.display === 'block';
+    body.style.display = open ? 'none' : 'block';
+    icon.style.transform = open ? '' : 'rotate(180deg)';
+  }
+  // scroll fade
+  const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:0.1});
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
