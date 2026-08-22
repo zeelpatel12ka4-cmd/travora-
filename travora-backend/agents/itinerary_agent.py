@@ -74,7 +74,7 @@ class ItineraryAgent:
         )
 
         try:
-            raw = await call_llm(SYSTEM_PROMPT, prompt, max_tokens=4096, temperature=0.7)
+            raw = await call_llm(SYSTEM_PROMPT, prompt, max_tokens=8192, temperature=0.7)
             result = safe_parse_json(raw)
             if not isinstance(result, list):
                 raise ValueError("Expected a JSON array")

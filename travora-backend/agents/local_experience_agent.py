@@ -74,7 +74,7 @@ class LocalExperienceAgent:
         )
 
         try:
-            raw = await call_llm(SYSTEM_PROMPT, prompt, max_tokens=3000, temperature=0.8)
+            raw = await call_llm(SYSTEM_PROMPT, prompt, max_tokens=4096, temperature=0.8)
             result = safe_parse_json(raw)
         except Exception as e:
             result = {
