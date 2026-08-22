@@ -96,7 +96,11 @@ async def get_trip(
     except Exception:
         raise HTTPException(status_code=400, detail="Invalid trip ID")
 
-    doc = await db.trips.find_one({"_id": oid, "user_id": ObjectId(user_id)})
+    user_doc = await db.users.find_one({"_id": ObjectId(user_id)})
+    is_admin = user_doc.get("is_admin", False) if user_doc else False
+    query = {"_id": oid} if is_admin else {"_id": oid, "user_id": ObjectId(user_id)}
+
+    doc = await db.trips.find_one(query)
     if not doc:
         raise HTTPException(status_code=404, detail="Trip not found")
     return _format_trip(doc)

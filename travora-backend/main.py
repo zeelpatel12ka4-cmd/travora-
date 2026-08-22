@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 
 from database.mongo import connect_db, close_db
-from routes import auth, trips, destinations, planner
+from routes import auth, trips, destinations, planner, admin
 from services.llm_client import initialise_llm
 
 # ── Logging — structured, level-controlled via LOG_LEVEL env var ───────────────
@@ -57,6 +57,7 @@ app.include_router(auth.router,         prefix="/api/auth",         tags=["Auth"
 app.include_router(trips.router,        prefix="/api/trips",        tags=["Trips"])
 app.include_router(destinations.router, prefix="/api/destinations", tags=["Destinations"])
 app.include_router(planner.router,      prefix="/api/planner",      tags=["Planner"])
+app.include_router(admin.router,        prefix="/api/admin",        tags=["Admin"])
 
 
 @app.get("/", tags=["Health"])

@@ -37,8 +37,20 @@ class UserOut(BaseModel):
     id: str
     name: str
     email: str
+    is_admin: bool = False
+    is_active: bool = True
     created_at: datetime
     preferences: UserPreferences = UserPreferences()
+
+
+class UserAdminOut(BaseModel):
+    id: str
+    name: str
+    email: str
+    created_at: datetime
+    trip_count: int = 0
+    is_active: bool = True
+    is_admin: bool = False
 
 
 class UserUpdate(BaseModel):
@@ -131,6 +143,22 @@ class TripOut(BaseModel):
     agent_notes: AgentNotes = AgentNotes()
     created_at: datetime
     updated_at: Optional[datetime] = None
+
+
+class TripAdminOut(BaseModel):
+    id: str
+    user_id: str
+    owner_name: str = ""
+    owner_email: str = ""
+    destination: str
+    from_city: str
+    start_date: str
+    end_date: str
+    travelers: int
+    budget: float
+    currency: str = "INR"
+    status: TripStatus
+    created_at: datetime
 
 
 class TripUpdate(BaseModel):

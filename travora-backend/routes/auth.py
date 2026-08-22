@@ -18,6 +18,8 @@ def _format_user(doc: dict) -> UserOut:
         id=str(doc["_id"]),
         name=doc["name"],
         email=doc["email"],
+        is_admin=doc.get("is_admin", False),
+        is_active=doc.get("is_active", True),
         created_at=doc["created_at"],
         preferences=UserPreferences(**doc.get("preferences", {})),
     )
@@ -39,6 +41,8 @@ async def signup(payload: UserCreate):
         "name": payload.name,
         "email": payload.email.lower(),
         "password_hash": hash_password(payload.password),
+        "is_admin": False,
+        "is_active": True,
         "created_at": now,
         "preferences": {"interests": [], "home_city": ""},
     }
@@ -58,6 +62,12 @@ async def login(payload: UserLogin):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid email or password",
+        )
+
+    if not doc.get("is_active", True):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Account is deactivated. Please contact support.",
         )
 
     user_out = _format_user(doc)

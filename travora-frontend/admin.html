@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — Travora</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <div class="navbar__logo-icon"><i class="fa-solid fa-earth-americas"></i></div>
+        <span>Travora</span>
+      </a>
+      <ul class="navbar__links">
+        <li><a href="index.html"    class="navbar__link">Home</a></li>
+        <li><a href="explore.html"  class="navbar__link">Explore</a></li>
+        <li><a href="my-trips.html" class="navbar__link">My Trips</a></li>
+        <li><a href="planner.html"  class="navbar__link">AI Planner</a></li>
+        <li><a href="pricing.html"  class="navbar__link">Pricing</a></li>
+        <li><a href="about.html"    class="navbar__link">About Us</a></li>
+        <li class="nav-admin-link"><a href="admin.html" class="navbar__link active">Admin</a></li>
+      </ul>
+      <div class="navbar__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+        <div id="authNav">
+          <a href="login.html?redirect=admin.html" class="btn btn-outline btn-sm">Login</a>
+          <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+        <div id="userNav" style="display:none;align-items:center;gap:8px;"><div class="user-avatar" id="userAvatar">U</div></div>
+        <button class="navbar__hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </div>
+  <div class="navbar__mobile-menu" id="mobileMenu">
+    <a href="index.html" class="navbar__link">Home</a>
+    <a href="explore.html" class="navbar__link">Explore</a>
+    <a href="my-trips.html" class="navbar__link">My Trips</a>
+    <a href="planner.html" class="navbar__link">AI Planner</a>
+    <a href="pricing.html" class="navbar__link">Pricing</a>
+    <a href="about.html" class="navbar__link">About Us</a>
+    <a href="admin.html" class="navbar__link active nav-admin-link">Admin</a>
+    <div style="border-top:1px solid var(--color-border);padding-top:12px;display:flex;gap:8px;" id="mobileAuthNav">
+      <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+      <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+<main>
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <div class="container">
+      <div class="section-label" style="justify-content:center;">
+        <i class="fa-solid fa-shield-halved"></i> Admin Console
+      </div>
+      <h1>Admin Dashboard</h1>
+      <p id="heroSubtitle">Platform overview, metrics, user management, and itinerary analytics.</p>
+    </div>
+  </div>
+
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+    <!-- 1. Overview Stats Cards -->
+    <div class="admin-section">
+      <div class="admin-section-header">
+        <h2 class="admin-section-title">
+          <i class="fa-solid fa-chart-pie" style="color:var(--color-primary);"></i> Platform Overview
+        </h2>
+        <span class="admin-section-subtitle">Real-time platform activity metrics</span>
+      </div>
+
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card">
+          <div class="stat-card__top">
+            <span class="stat-card__label">Total Users</span>
+            <div class="stat-card__icon stat-card__icon--primary"><i class="fa-solid fa-users"></i></div>
+          </div>
+          <div class="stat-card__value" id="statTotalUsers">—</div>
+          <div class="stat-card__sub" id="statActiveUsersSub"><i class="fa-solid fa-circle-check" style="color:#22C55E;"></i> Active accounts</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card__top">
+            <span class="stat-card__label">Total Trips</span>
+            <div class="stat-card__icon stat-card__icon--info"><i class="fa-solid fa-suitcase-rolling"></i></div>
+          </div>
+          <div class="stat-card__value" id="statTotalTrips">—</div>
+          <div class="stat-card__sub"><i class="fa-solid fa-plane-departure" style="color:var(--color-primary);"></i> Created platform-wide</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card__top">
+            <span class="stat-card__label">Trips This Week</span>
+            <div class="stat-card__icon stat-card__icon--purple"><i class="fa-solid fa-calendar-week"></i></div>
+          </div>
+          <div class="stat-card__value" id="statTripsThisWeek">—</div>
+          <div class="stat-card__sub"><i class="fa-solid fa-arrow-trend-up" style="color:#A855F7;"></i> Past 7 days</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card__top">
+            <span class="stat-card__label">Trips This Month</span>
+            <div class="stat-card__icon stat-card__icon--success"><i class="fa-solid fa-calendar-days"></i></div>
+          </div>
+          <div class="stat-card__value" id="statTripsThisMonth">—</div>
+          <div class="stat-card__sub"><i class="fa-solid fa-clock-rotate-left" style="color:#22C55E;"></i> Past 30 days</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card__top">
+            <span class="stat-card__label">Generated Trips</span>
+            <div class="stat-card__icon stat-card__icon--warning"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+          </div>
+          <div class="stat-card__value" id="statGeneratedTrips">—</div>
+          <div class="stat-card__sub"><i class="fa-solid fa-sparkles" style="color:#F59E0B;"></i> AI itinerary ready</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card__top">
+            <span class="stat-card__label">Booked Trips</span>
+            <div class="stat-card__icon stat-card__icon--rose"><i class="fa-solid fa-ticket"></i></div>
+          </div>
+          <div class="stat-card__value" id="statBookedTrips">—</div>
+          <div class="stat-card__sub"><i class="fa-solid fa-check" style="color:#F43F5E;"></i> Confirmed travel</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Engagement Chart (30-day daily trips) -->
+    <div class="admin-card">
+      <div class="admin-card__header">
+        <div class="admin-card__title">
+          <i class="fa-solid fa-chart-column" style="color:var(--color-primary);"></i>
+          <span>Trip Engagement (Last 30 Days)</span>
+        </div>
+        <span style="font-size:0.8125rem;color:var(--color-text-muted);">Trips created per day</span>
+      </div>
+      <div class="admin-card__body">
+        <div class="chart-container">
+          <canvas id="engagementChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 & 3. Top Destinations & Top Interests Split -->
+    <div class="admin-split-grid">
+      <!-- Top Destinations -->
+      <div class="admin-card" style="margin-bottom:0;">
+        <div class="admin-card__header">
+          <div class="admin-card__title">
+            <i class="fa-solid fa-location-dot" style="color:var(--color-primary);"></i>
+            <span>Top Destinations</span>
+          </div>
+          <span style="font-size:0.8125rem;color:var(--color-text-muted);">Top 10 by trip count</span>
+        </div>
+        <div class="admin-card__body">
+          <div class="top-list" id="topDestinationsList">
+            <div style="text-align:center;padding:var(--space-md);color:var(--color-text-muted);">Loading top destinations…</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Interests -->
+      <div class="admin-card" style="margin-bottom:0;">
+        <div class="admin-card__header">
+          <div class="admin-card__title">
+            <i class="fa-solid fa-tags" style="color:var(--color-primary);"></i>
+            <span>Top Interests & Tags</span>
+          </div>
+          <span style="font-size:0.8125rem;color:var(--color-text-muted);">Top 10 selected tags</span>
+        </div>
+        <div class="admin-card__body">
+          <div class="top-list" id="topInterestsList">
+            <div style="text-align:center;padding:var(--space-md);color:var(--color-text-muted);">Loading top interests…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. User Management Table -->
+    <div class="admin-card" style="margin-top:var(--space-xl);">
+      <div class="admin-card__header">
+        <div class="admin-card__title">
+          <i class="fa-solid fa-users-gear" style="color:var(--color-primary);"></i>
+          <span>User Management</span>
+        </div>
+        <span style="font-size:0.8125rem;color:var(--color-text-muted);" id="userTableSummary">All registered accounts</span>
+      </div>
+      <div class="admin-card__body">
+        <!-- Toolbar -->
+        <div class="table-toolbar">
+          <div class="table-search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="userSearchInput" placeholder="Search by name or email…" />
+          </div>
+          <div class="table-filters">
+            <select class="table-select" id="userStatusFilter">
+              <option value="">All Statuses</option>
+              <option value="active">Active Only</option>
+              <option value="inactive">Deactivated Only</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="admin-table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Role</th>
+                <th>Joined</th>
+                <th>Trips</th>
+                <th>Status</th>
+                <th style="text-align:right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="userTableBody">
+              <tr>
+                <td colspan="6" class="table-empty-row">Loading users…</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="table-pagination">
+          <div id="userPaginationInfo">Showing 0 to 0 of 0 users</div>
+          <div class="pagination-controls">
+            <button class="pagination-btn" id="userPrevBtn" onclick="changeUserPage(-1)"><i class="fa-solid fa-chevron-left"></i> Prev</button>
+            <span id="userPageNumber" style="font-weight:600;padding:0 8px;">Page 1</span>
+            <button class="pagination-btn" id="userNextBtn" onclick="changeUserPage(1)">Next <i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. All Trips Table -->
+    <div class="admin-card" style="margin-top:var(--space-xl);">
+      <div class="admin-card__header">
+        <div class="admin-card__title">
+          <i class="fa-solid fa-route" style="color:var(--color-primary);"></i>
+          <span>All Platform Trips</span>
+        </div>
+        <span style="font-size:0.8125rem;color:var(--color-text-muted);" id="tripTableSummary">Search and inspect all itineraries</span>
+      </div>
+      <div class="admin-card__body">
+        <!-- Toolbar -->
+        <div class="table-toolbar">
+          <div class="table-search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="tripSearchInput" placeholder="Search destination, city, owner…" />
+          </div>
+          <div class="table-filters">
+            <select class="table-select" id="tripStatusFilter">
+              <option value="all">All Statuses</option>
+              <option value="generated">Generated</option>
+              <option value="booked">Booked</option>
+              <option value="draft">Draft</option>
+              <option value="generating">Generating</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="admin-table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Destination</th>
+                <th>Owner</th>
+                <th>Dates & Duration</th>
+                <th>Travelers</th>
+                <th>Budget</th>
+                <th>Status</th>
+                <th style="text-align:right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tripTableBody">
+              <tr>
+                <td colspan="7" class="table-empty-row">Loading trips…</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="table-pagination">
+          <div id="tripPaginationInfo">Showing 0 to 0 of 0 trips</div>
+          <div class="pagination-controls">
+            <button class="pagination-btn" id="tripPrevBtn" onclick="changeTripPage(-1)"><i class="fa-solid fa-chevron-left"></i> Prev</button>
+            <span id="tripPageNumber" style="font-weight:600;padding:0 8px;">Page 1</span>
+            <button class="pagination-btn" id="tripNextBtn" onclick="changeTripPage(1)">Next <i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom" style="border-top:none;padding-top:0;">
+      <p>© 2026 Travora. All rights reserved.</p>
+      <a href="index.html" class="navbar__logo"><div class="navbar__logo-icon"><i class="fa-solid fa-earth-americas"></i></div><span>Travora</span></a>
+    </div>
+  </div>
+</footer>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

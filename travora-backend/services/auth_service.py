@@ -57,3 +57,14 @@ async def get_current_user_id(
 ) -> str:
     token_data = decode_token(credentials.credentials)
     return token_data.user_id
+
+
+async def get_current_admin_id(user_id: str = Depends(get_current_user_id)) -> str:
+    from database.mongo import get_db
+    from bson import ObjectId
+    db = get_db()
+    doc = await db.users.find_one({"_id": ObjectId(user_id)})
+    if not doc or not doc.get("is_admin", False):
+        raise HTTPException(status_code=403, detail="Admin access required")
+    return user_id
+
