@@ -27,6 +27,8 @@ def _format_user(doc: dict) -> UserOut:
         name=doc["name"],
         email=doc["email"],
         avatar_url=doc.get("avatar_url", ""),
+        is_admin=doc.get("is_admin", False),
+        is_active=doc.get("is_active", True),
         created_at=doc["created_at"],
         preferences=UserPreferences(**doc.get("preferences", {})),
         profile=UserProfile(**doc.get("profile", {})),
@@ -51,6 +53,8 @@ async def signup(payload: UserCreate):
         "email":         payload.email.lower(),
         "password_hash": hash_password(payload.password),
         "avatar_url":    "",
+        "is_admin":      False,
+        "is_active":     True,
         "created_at":    now,
         "preferences":   {"interests": [], "home_city": ""},
         "profile": {
@@ -80,6 +84,12 @@ async def login(payload: UserLogin):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid email or password",
+        )
+
+    if not doc.get("is_active", True):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Account is deactivated. Please contact support.",
         )
 
     user_out = _format_user(doc)

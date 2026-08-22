@@ -47,6 +47,9 @@ class UserOut(BaseModel):
     id: str
     name: str
     email: str
+    avatar_url: Optional[str] = ""
+    is_admin: bool = False
+    is_active: bool = True
     created_at: datetime
     preferences: UserPreferences = UserPreferences()
     profile: UserProfile = UserProfile()

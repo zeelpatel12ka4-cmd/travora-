@@ -63,6 +63,12 @@ function syncAuthUI() {
     if (userNav)  userNav.style.display  = 'none';
     if (mobileAuthNav) mobileAuthNav.style.display = 'flex';
   }
+
+  // Handle Admin links visibility
+  const adminLinks = document.querySelectorAll('.nav-admin-link');
+  adminLinks.forEach((el) => {
+    el.style.display = loggedIn && user?.is_admin ? '' : 'none';
+  });
 }
 
 // ── User dropdown ──────────────────────────────────────────────
@@ -85,11 +91,18 @@ function toggleUserDropdown(e) {
       <div style="font-weight:700;color:var(--color-text);font-size:0.9375rem;">${escapeHtml(user?.name || 'Traveler')}</div>
       <div style="font-size:0.8125rem;color:var(--color-text-muted);margin-top:2px;">${escapeHtml(user?.email || '')}</div>
     </div>
+    ${user?.is_admin ? `
+    <a href="admin.html" style="display:flex;align-items:center;gap:10px;padding:12px 16px;color:var(--color-primary);font-weight:600;font-size:0.9rem;transition:background 0.15s;" onmouseover="this.style.background='var(--color-bg-secondary)'" onmouseout="this.style.background=''">
+      <i class="fa-solid fa-gauge-high" style="width:16px;color:var(--color-primary);"></i> Admin Dashboard
+    </a>` : ''}
     <a href="profile.html" style="display:flex;align-items:center;gap:10px;padding:12px 16px;color:var(--color-text);font-size:0.9rem;transition:background 0.15s;" onmouseover="this.style.background='var(--color-bg-secondary)'" onmouseout="this.style.background=''">
       <i class="fa-solid fa-user-pen" style="width:16px;color:var(--color-primary);"></i> My Profile
     </a>
     <a href="my-trips.html" style="display:flex;align-items:center;gap:10px;padding:12px 16px;color:var(--color-text);font-size:0.9rem;transition:background 0.15s;" onmouseover="this.style.background='var(--color-bg-secondary)'" onmouseout="this.style.background=''">
       <i class="fa-solid fa-suitcase" style="width:16px;color:var(--color-primary);"></i> My Trips
+    </a>
+    <a href="calendar.html" style="display:flex;align-items:center;gap:10px;padding:12px 16px;color:var(--color-text);font-size:0.9rem;transition:background 0.15s;" onmouseover="this.style.background='var(--color-bg-secondary)'" onmouseout="this.style.background=''">
+      <i class="fa-solid fa-calendar-days" style="width:16px;color:var(--color-primary);"></i> Calendar
     </a>
     <a href="planner.html" style="display:flex;align-items:center;gap:10px;padding:12px 16px;color:var(--color-text);font-size:0.9rem;transition:background 0.15s;" onmouseover="this.style.background='var(--color-bg-secondary)'" onmouseout="this.style.background=''">
       <i class="fa-solid fa-wand-magic-sparkles" style="width:16px;color:var(--color-primary);"></i> Plan a Trip
