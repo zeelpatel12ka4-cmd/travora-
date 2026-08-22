@@ -22,6 +22,16 @@ class UserPreferences(BaseModel):
     home_city: str = ""
 
 
+class UserProfile(BaseModel):
+    """Extended profile fields stored in the user document."""
+    first_name: Optional[str] = ""
+    last_name: Optional[str] = ""
+    phone: Optional[str] = ""
+    city: Optional[str] = ""
+    country: Optional[str] = ""
+    bio: Optional[str] = ""
+
+
 class UserCreate(BaseModel):
     name: str = Field(..., min_length=2, max_length=100)
     email: EmailStr
@@ -37,10 +47,9 @@ class UserOut(BaseModel):
     id: str
     name: str
     email: str
-    is_admin: bool = False
-    is_active: bool = True
     created_at: datetime
     preferences: UserPreferences = UserPreferences()
+    profile: UserProfile = UserProfile()
 
 
 class UserAdminOut(BaseModel):
@@ -55,7 +64,9 @@ class UserAdminOut(BaseModel):
 
 class UserUpdate(BaseModel):
     name: Optional[str] = None
+    avatar_url: Optional[str] = None
     preferences: Optional[UserPreferences] = None
+    profile: Optional[UserProfile] = None
 
 
 # ─────────────────────────────────────────────

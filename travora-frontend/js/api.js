@@ -33,6 +33,15 @@ async function apiFetch(path, options = {}) {
     );
   }
 
+  // Handle 401 — clear stale auth
+  if (response.status === 401) {
+    localStorage.removeItem('travora_token');
+    localStorage.removeItem('travora_user');
+    const err = new Error('Session expired. Please sign in again.');
+    err.status = 401;
+    throw err;
+  }
+
   // 204 No Content
   if (response.status === 204) return null;
 
@@ -42,18 +51,6 @@ async function apiFetch(path, options = {}) {
   } catch {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     return null;
-  }
-
-  // Handle 401 — clear stale auth
-  if (response.status === 401) {
-    localStorage.removeItem('travora_token');
-    localStorage.removeItem('travora_user');
-    let msg = data?.detail || 'Session expired. Please sign in again.';
-    if (Array.isArray(msg)) msg = msg.map((d) => d.msg || d).join(', ');
-    const err = new Error(String(msg));
-    err.status = 401;
-    err.data = data;
-    throw err;
   }
 
   if (!response.ok) {
@@ -76,7 +73,7 @@ async function apiFetch(path, options = {}) {
 function apiGet(path)              { return apiFetch(path, { method: 'GET' }); }
 function apiPost(path, body)       { return apiFetch(path, { method: 'POST',   body: JSON.stringify(body) }); }
 function apiPut(path, body)        { return apiFetch(path, { method: 'PUT',    body: JSON.stringify(body) }); }
-function apiPatch(path, body)      { return apiFetch(path, { method: 'PATCH',  ...(body ? { body: JSON.stringify(body) } : {}) }); }
+function apiPatch(path, body)      { return apiFetch(path, { method: 'PATCH',  body: JSON.stringify(body) }); }
 function apiDelete(path)           { return apiFetch(path, { method: 'DELETE' }); }
 
 /**

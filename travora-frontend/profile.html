@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>`n    <link rel="icon" type="image/png" href="favicon.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Profile — Travora</title>
+  <meta name="description" content="Manage your Travora profile, travel preferences, and account details." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ── Profile page ────────────────────────────────────── */
+    .profile-page {
+      background: #F8FAFC;
+      min-height: calc(100vh - var(--navbar-h));
+      padding: var(--space-2xl) 0;
+    }
+
+    .profile-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: var(--space-xl);
+      align-items: start;
+    }
+
+    /* ── Left: identity card ─────────────────────────────── */
+    .profile-identity {
+      background: #fff;
+      border-radius: 20px;
+      border: 1px solid var(--color-border);
+      box-shadow: 0 4px 24px rgba(99,102,241,0.08);
+      overflow: hidden;
+      position: sticky;
+      top: calc(var(--navbar-h) + 24px);
+    }
+
+    .profile-identity__banner {
+      height: 88px;
+      background: linear-gradient(135deg, #6366F1 0%, #7C3AED 50%, #4F46E5 100%);
+      position: relative;
+    }
+
+    .profile-identity__banner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .profile-identity__avatar-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 var(--space-lg) var(--space-lg);
+      margin-top: -44px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .avatar-upload-ring {
+      position: relative;
+      width: 88px;
+      height: 88px;
+      cursor: pointer;
+    }
+
+    .avatar-upload-ring:hover .avatar-overlay { opacity: 1; }
+
+    #avatarPreview {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #fff;
+      box-shadow: 0 4px 16px rgba(99,102,241,0.25);
+      background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: var(--color-primary);
+      transition: all var(--transition-base);
+    }
+
+    #avatarPreview.has-image { font-size: 0; }
+
+    .avatar-overlay {
+      position: absolute;
+      inset: 4px;
+      border-radius: 50%;
+      background: rgba(99,102,241,0.72);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity var(--transition-fast);
+      color: #fff;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      gap: 3px;
+    }
+
+    .avatar-overlay i { font-size: 1.125rem; }
+
+    #avatarInput { display: none; }
+
+    .profile-identity__name {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    .profile-identity__email {
+      font-size: 0.8125rem;
+      color: var(--color-text-muted);
+      margin-top: 2px;
+      text-align: center;
+    }
+
+    .profile-identity__since {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.75rem;
+      color: var(--color-primary);
+      font-weight: 600;
+      margin-top: 10px;
+      padding: 4px 12px;
+      background: var(--color-primary-soft);
+      border-radius: var(--radius-full);
+    }
+
+    .profile-identity__divider {
+      border: none;
+      border-top: 1px solid var(--color-border-light);
+      margin: var(--space-md) var(--space-lg);
+    }
+
+    .profile-identity__nav {
+      padding: 0 var(--space-md) var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .profile-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      transition: all var(--transition-fast);
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .profile-nav-link i { width: 18px; text-align: center; font-size: 0.9rem; }
+
+    .profile-nav-link:hover,
+    .profile-nav-link.active {
+      background: var(--color-primary-soft);
+      color: var(--color-primary);
+    }
+
+    .profile-nav-link--danger:hover {
+      background: #FEF2F2;
+      color: #EF4444;
+    }
+
+    /* ── Right: main content panels ─────────────────────── */
+    .profile-main { display: flex; flex-direction: column; gap: var(--space-lg); }
+
+    .profile-card {
+      background: #fff;
+      border-radius: 20px;
+      border: 1px solid var(--color-border);
+      box-shadow: 0 4px 24px rgba(99,102,241,0.07);
+      overflow: hidden;
+    }
+
+    .profile-card__header {
+      padding: 20px 28px 16px;
+      border-bottom: 1px solid var(--color-border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .profile-card__header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .profile-card__header-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    .icon--purple { background: #EEF2FF; color: #6366F1; }
+    .icon--teal   { background: #CCFBF1; color: #0D9488; }
+    .icon--amber  { background: #FEF3C7; color: #D97706; }
+
+    .profile-card__title {
+      font-size: 1.0625rem;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+
+    .profile-card__subtitle {
+      font-size: 0.8125rem;
+      color: var(--color-text-muted);
+      margin-top: 1px;
+    }
+
+    .profile-card__body { padding: 24px 28px; }
+
+    /* ── Form grid ───────────────────────────────────────── */
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-md) var(--space-lg);
+    }
+
+    .form-grid-2 .col-span-2 { grid-column: span 2; }
+
+    .form-label { display: flex; align-items: center; gap: 6px; }
+    .form-label i { font-size: 0.8125rem; color: var(--color-primary); opacity: .8; }
+
+    .form-input-wrap { position: relative; }
+    .form-input-wrap i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-text-light);
+      pointer-events: none;
+      font-size: 0.85rem;
+    }
+    .form-input-wrap .form-input { padding-left: 40px; }
+    .form-input-wrap.textarea-wrap i { top: 14px; transform: none; }
+    .form-input-wrap.textarea-wrap .form-textarea { padding-left: 40px; }
+
+    .form-textarea {
+      width: 100%;
+      padding: 11px 16px;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-size: 0.9375rem;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+      outline: none;
+      resize: vertical;
+      min-height: 110px;
+      font-family: inherit;
+      line-height: 1.6;
+    }
+
+    .form-textarea:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+    }
+
+    .form-textarea::placeholder { color: var(--color-text-light); }
+
+    /* ── Save bar ─────────────────────────────────────────── */
+    .profile-save-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--color-border-light);
+      margin-top: var(--space-lg);
+      flex-wrap: wrap;
+    }
+
+    .profile-save-bar__status {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ── Preferences chips ───────────────────────────────── */
+    .interests-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .interest-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: var(--radius-full);
+      border: 1.5px solid var(--color-border);
+      background: var(--color-bg);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      user-select: none;
+    }
+
+    .interest-chip i { font-size: 0.8rem; }
+
+    .interest-chip.selected {
+      background: var(--color-primary-soft);
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+
+    .interest-chip:hover:not(.selected) {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    /* ── Danger zone ─────────────────────────────────────── */
+    .danger-zone {
+      background: #FFF5F5;
+      border: 1.5px solid #FECACA;
+      border-radius: var(--radius-md);
+      padding: var(--space-md) var(--space-lg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+    }
+
+    .danger-zone__text h4 { font-size: 0.9375rem; color: #991B1B; margin-bottom: 2px; }
+    .danger-zone__text p  { font-size: 0.8125rem; color: #DC2626; margin: 0; }
+
+    /* ── Success / error banner ──────────────────────────── */
+    #profileBanner {
+      display: none;
+      padding: 12px 18px;
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: var(--space-md);
+      animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Spinner ─────────────────────────────────────────── */
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2.5px solid rgba(255,255,255,0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Dark mode ────────────────────────────────────────── */
+    [data-theme="dark"] .profile-page   { background: #0F172A; }
+    [data-theme="dark"] .profile-identity,
+    [data-theme="dark"] .profile-card   { background: #1E293B; border-color: #334155; }
+    [data-theme="dark"] .interest-chip  { background: #0F172A; border-color: #334155; }
+    [data-theme="dark"] .interest-chip.selected { background: #1E1B4B; }
+    [data-theme="dark"] .danger-zone    { background: #1C0A0A; border-color: #7F1D1D; }
+    [data-theme="dark"] .danger-zone__text h4 { color: #FCA5A5; }
+    [data-theme="dark"] .danger-zone__text p  { color: #F87171; }
+
+    /* ── Responsive ──────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .profile-layout { grid-template-columns: 1fr; }
+      .profile-identity { position: static; }
+      .profile-identity__avatar-wrap { flex-direction: row; gap: 20px; align-items: flex-end; margin-top: -30px; padding-bottom: var(--space-md); }
+    }
+
+    @media (max-width: 600px) {
+      .profile-card__body { padding: 18px; }
+      .profile-card__header { padding: 16px 18px 12px; }
+      .form-grid-2 { grid-template-columns: 1fr; }
+      .form-grid-2 .col-span-2 { grid-column: span 1; }
+      .profile-identity__avatar-wrap { flex-direction: column; align-items: center; margin-top: -44px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navbar ────────────────────────────────────────────────── -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <div class="navbar__logo-icon"><i class="fa-solid fa-earth-americas"></i></div>
+        <span>Travora</span>
+      </a>
+      <ul class="navbar__links">
+        <li><a href="index.html"    class="navbar__link">Home</a></li>
+        <li><a href="explore.html"  class="navbar__link">Explore</a></li>
+        <li><a href="my-trips.html" class="navbar__link">My Trips</a></li>
+        <li><a href="calendar.html" class="navbar__link">Calendar</a></li>
+        <li><a href="planner.html"  class="navbar__link">AI Planner</a></li>
+        <li><a href="pricing.html"  class="navbar__link">Pricing</a></li>
+        <li><a href="about.html"    class="navbar__link">About Us</a></li>
+      </ul>
+      <div class="navbar__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+          <i class="fa-solid fa-moon" id="themeIcon"></i>
+        </button>
+        <div id="authNav">
+          <a href="login.html?redirect=profile.html" class="btn btn-outline btn-sm">Login</a>
+          <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+        <div id="userNav" style="display:none; align-items:center; gap:8px;">
+          <div class="user-avatar" id="userAvatar" title="My Account">U</div>
+        </div>
+        <button class="navbar__hamburger" id="hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="navbar__mobile-menu" id="mobileMenu">
+    <a href="index.html"    class="navbar__link">Home</a>
+    <a href="explore.html"  class="navbar__link">Explore</a>
+    <a href="my-trips.html" class="navbar__link">My Trips</a>
+    <a href="calendar.html" class="navbar__link">Calendar</a>
+    <a href="planner.html"  class="navbar__link">AI Planner</a>
+    <a href="pricing.html"  class="navbar__link">Pricing</a>
+    <a href="about.html"    class="navbar__link">About Us</a>
+    <div style="border-top:1px solid var(--color-border);padding-top:12px;display:flex;gap:8px;" id="mobileAuthNav">
+      <a href="login.html"  class="btn btn-outline btn-sm">Login</a>
+      <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+<main>
+<div class="profile-page">
+  <div class="container">
+
+    <!-- Auth wall -->
+    <div id="authWall" style="display:none; max-width:480px; margin:var(--space-3xl) auto; text-align:center;">
+      <div style="font-size:3rem;margin-bottom:var(--space-lg);">🔐</div>
+      <h2 style="margin-bottom:var(--space-sm);">Sign in to view your profile</h2>
+      <p style="margin-bottom:var(--space-xl);">Create an account or sign in to manage your Travora profile and preferences.</p>
+      <div style="display:flex;gap:var(--space-md);justify-content:center;flex-wrap:wrap;">
+        <a href="login.html?redirect=profile.html" class="btn btn-primary"><i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In</a>
+        <a href="signup.html" class="btn btn-outline"><i class="fa-solid fa-user-plus"></i> Create Account</a>
+      </div>
+    </div>
+
+    <!-- Main profile layout -->
+    <div class="profile-layout" id="profileLayout" style="display:none;">
+
+      <!-- ── Left: Identity Card ──────────────────────────── -->
+      <aside class="profile-identity">
+        <div class="profile-identity__banner"></div>
+
+        <div class="profile-identity__avatar-wrap">
+          <!-- Avatar upload -->
+          <div class="avatar-upload-ring" onclick="document.getElementById('avatarInput').click()" title="Click to change photo">
+            <div id="avatarPreview">
+              <i class="fa-solid fa-user" style="font-size:2.2rem;color:#6366F1;"></i>
+            </div>
+            <div class="avatar-overlay">
+              <i class="fa-solid fa-camera"></i>
+              <span>Change</span>
+            </div>
+            <input type="file" id="avatarInput" accept="image/*" onchange="previewAvatar(event)" />
+          </div>
+
+          <div>
+            <div class="profile-identity__name" id="identityName">—</div>
+            <div class="profile-identity__email" id="identityEmail">—</div>
+            <div class="profile-identity__since">
+              <i class="fa-solid fa-calendar-check"></i>
+              <span id="identitySince">Member</span>
+            </div>
+          </div>
+        </div>
+
+        <hr class="profile-identity__divider" />
+
+        <nav class="profile-identity__nav">
+          <a class="profile-nav-link active" href="#" onclick="scrollToSection('sectionPersonal',this)">
+            <i class="fa-solid fa-user-pen"></i> Personal Info
+          </a>
+          <a class="profile-nav-link" href="#" onclick="scrollToSection('sectionPreferences',this)">
+            <i class="fa-solid fa-heart"></i> Travel Preferences
+          </a>
+          <a class="profile-nav-link" href="#" onclick="scrollToSection('sectionSecurity',this)">
+            <i class="fa-solid fa-shield-halved"></i> Account & Security
+          </a>
+          <a class="profile-nav-link" href="my-trips.html">
+            <i class="fa-solid fa-suitcase-rolling"></i> My Trips
+          </a>
+          <a class="profile-nav-link" href="planner.html">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Plan a Trip
+          </a>
+          <a class="profile-nav-link profile-nav-link--danger" href="#" onclick="confirmLogout(event)">
+            <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+          </a>
+        </nav>
+      </aside>
+
+      <!-- ── Right: Main Cards ──────────────────────────────── -->
+      <div class="profile-main">
+
+        <!-- Global status banner -->
+        <div id="profileBanner"></div>
+
+        <!-- ── Card 1: Personal Info ────────────────────────── -->
+        <div class="profile-card" id="sectionPersonal">
+          <div class="profile-card__header">
+            <div class="profile-card__header-left">
+              <div class="profile-card__header-icon icon--purple">
+                <i class="fa-solid fa-id-card"></i>
+              </div>
+              <div>
+                <div class="profile-card__title">Personal Information</div>
+                <div class="profile-card__subtitle">Update your name, contact details, and bio</div>
+              </div>
+            </div>
+            <div style="font-size:0.75rem;color:var(--color-text-light);">
+              <i class="fa-solid fa-circle" style="color:#22C55E;font-size:0.5rem;margin-right:4px;"></i>Saved
+            </div>
+          </div>
+
+          <div class="profile-card__body">
+            <form id="profileForm" onsubmit="saveProfile(event)" novalidate>
+              <div class="form-grid-2">
+
+                <!-- First Name -->
+                <div class="form-group">
+                  <label class="form-label" for="firstName">
+                    <i class="fa-solid fa-user"></i> First Name
+                  </label>
+                  <div class="form-input-wrap">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="firstName" class="form-input" placeholder="Ayush" autocomplete="given-name" />
+                  </div>
+                </div>
+
+                <!-- Last Name -->
+                <div class="form-group">
+                  <label class="form-label" for="lastName">
+                    <i class="fa-solid fa-user"></i> Last Name
+                  </label>
+                  <div class="form-input-wrap">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="lastName" class="form-input" placeholder="Patel" autocomplete="family-name" />
+                  </div>
+                </div>
+
+                <!-- Email Address -->
+                <div class="form-group">
+                  <label class="form-label" for="profileEmail">
+                    <i class="fa-solid fa-envelope"></i> Email Address
+                  </label>
+                  <div class="form-input-wrap">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="profileEmail" class="form-input" placeholder="you@example.com" autocomplete="email" disabled
+                           style="opacity:.7;cursor:not-allowed;" title="Email cannot be changed" />
+                  </div>
+                  <span style="font-size:0.75rem;color:var(--color-text-light);margin-top:3px;">
+                    <i class="fa-solid fa-lock" style="font-size:0.65rem;"></i> Email is locked after registration
+                  </span>
+                </div>
+
+                <!-- Phone -->
+                <div class="form-group">
+                  <label class="form-label" for="phone">
+                    <i class="fa-solid fa-phone"></i> Phone Number
+                  </label>
+                  <div class="form-input-wrap">
+                    <i class="fa-solid fa-phone"></i>
+                    <input type="tel" id="phone" class="form-input" placeholder="+91 9876 543210" autocomplete="tel" />
+                  </div>
+                </div>
+
+                <!-- City -->
+                <div class="form-group">
+                  <label class="form-label" for="city">
+                    <i class="fa-solid fa-city"></i> City
+                  </label>
+                  <div class="form-input-wrap">
+                    <i class="fa-solid fa-city"></i>
+                    <input type="text" id="city" class="form-input" placeholder="Ahmedabad" autocomplete="address-level2" />
+                  </div>
+                </div>
+
+                <!-- Country -->
+                <div class="form-group">
+                  <label class="form-label" for="country">
+                    <i class="fa-solid fa-earth-asia"></i> Country
+                  </label>
+                  <div class="form-input-wrap">
+                    <i class="fa-solid fa-earth-asia"></i>
+                    <input type="text" id="country" class="form-input" placeholder="India" autocomplete="country-name" />
+                  </div>
+                </div>
+
+                <!-- Bio -->
+                <div class="form-group col-span-2">
+                  <label class="form-label" for="bio">
+                    <i class="fa-solid fa-feather-pointed"></i> About Me / Travel Bio
+                  </label>
+                  <div class="form-input-wrap textarea-wrap">
+                    <i class="fa-solid fa-feather-pointed"></i>
+                    <textarea
+                      id="bio"
+                      class="form-textarea"
+                      placeholder="Solo backpacker, loves mountain trekking and cultural food tours. Currently planning a Southeast Asia circuit…"
+                      maxlength="500"
+                    ></textarea>
+                  </div>
+                  <span style="font-size:0.75rem;color:var(--color-text-light);margin-top:3px;" id="bioCounter">0 / 500</span>
+                </div>
+
+              </div><!-- /.form-grid-2 -->
+
+              <div class="profile-save-bar">
+                <div class="profile-save-bar__status" id="personalStatus">
+                  <i class="fa-solid fa-circle-info" style="color:var(--color-primary);"></i>
+                  Changes are saved to your account
+                </div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                  <button type="button" class="btn btn-ghost btn-sm" onclick="resetProfileForm()">
+                    <i class="fa-solid fa-rotate-left"></i> Reset
+                  </button>
+                  <button type="submit" class="btn btn-primary" id="saveProfileBtn">
+                    <i class="fa-solid fa-floppy-disk"></i> Save Changes
+                  </button>
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </div><!-- /#sectionPersonal -->
+
+        <!-- ── Card 2: Travel Preferences ─────────────────── -->
+        <div class="profile-card" id="sectionPreferences">
+          <div class="profile-card__header">
+            <div class="profile-card__header-left">
+              <div class="profile-card__header-icon icon--teal">
+                <i class="fa-solid fa-compass"></i>
+              </div>
+              <div>
+                <div class="profile-card__title">Travel Preferences</div>
+                <div class="profile-card__subtitle">Help the AI Planner personalise your itineraries</div>
+              </div>
+            </div>
+          </div>
+          <div class="profile-card__body">
+
+            <div class="form-group" style="margin-bottom:var(--space-lg);">
+              <label class="form-label" for="homeCity">
+                <i class="fa-solid fa-house"></i> Home City (for departure suggestions)
+              </label>
+              <div class="form-input-wrap">
+                <i class="fa-solid fa-house"></i>
+                <input type="text" id="homeCity" class="form-input" placeholder="e.g. Mumbai" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" style="margin-bottom:10px;">
+                <i class="fa-solid fa-tags"></i> Travel Interests
+              </label>
+              <div class="interests-grid" id="interestsGrid">
+                <!-- Rendered by JS -->
+              </div>
+            </div>
+
+            <div class="profile-save-bar">
+              <div class="profile-save-bar__status">
+                <i class="fa-solid fa-circle-info" style="color:#0D9488;"></i>
+                Used by AI Planner to tailor recommendations
+              </div>
+              <button class="btn btn-primary" onclick="savePreferences()" id="savePrefBtn"
+                      style="background:linear-gradient(135deg,#0D9488,#0891B2);">
+                <i class="fa-solid fa-floppy-disk"></i> Save Preferences
+              </button>
+            </div>
+
+          </div>
+        </div><!-- /#sectionPreferences -->
+
+        <!-- ── Card 3: Account & Security ──────────────────── -->
+        <div class="profile-card" id="sectionSecurity">
+          <div class="profile-card__header">
+            <div class="profile-card__header-left">
+              <div class="profile-card__header-icon icon--amber">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <div>
+                <div class="profile-card__title">Account & Security</div>
+                <div class="profile-card__subtitle">Manage login credentials and account actions</div>
+              </div>
+            </div>
+          </div>
+          <div class="profile-card__body">
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md);margin-bottom:var(--space-xl);">
+              <div style="background:var(--color-bg-secondary);border-radius:var(--radius-md);padding:var(--space-md);">
+                <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-muted);margin-bottom:4px;">Account type</div>
+                <div style="font-weight:600;color:var(--color-text);display:flex;align-items:center;gap:6px;">
+                  <span style="background:#EEF2FF;color:#6366F1;padding:2px 10px;border-radius:999px;font-size:0.8rem;">Free Tier</span>
+                </div>
+              </div>
+              <div style="background:var(--color-bg-secondary);border-radius:var(--radius-md);padding:var(--space-md);">
+                <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-muted);margin-bottom:4px;">Member since</div>
+                <div style="font-weight:600;color:var(--color-text);" id="memberSince">—</div>
+              </div>
+            </div>
+
+            <div class="danger-zone">
+              <div class="danger-zone__text">
+                <h4><i class="fa-solid fa-right-from-bracket" style="margin-right:6px;"></i>Sign Out</h4>
+                <p>You'll be signed out of all pages on this device.</p>
+              </div>
+              <button class="btn btn-sm" style="background:#FEE2E2;color:#DC2626;border:1.5px solid #FECACA;flex-shrink:0;"
+                      onclick="confirmLogout(event)">
+                Sign Out
+              </button>
+            </div>
+
+            <div style="margin-top:var(--space-md);">
+              <a href="pricing.html" class="btn btn-primary" style="background:linear-gradient(135deg,#F59E0B,#EF4444);">
+                <i class="fa-solid fa-crown"></i> Upgrade to Pro
+              </a>
+            </div>
+
+          </div>
+        </div><!-- /#sectionSecurity -->
+
+      </div><!-- /.profile-main -->
+
+    </div><!-- /.profile-layout -->
+
+  </div><!-- /.container -->
+</div><!-- /.profile-page -->
+</main>
+</div><!-- /.page-wrapper -->
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="js/theme.js"></script>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script>
+'use strict';
+
+// ── Interest chip data ─────────────────────────────────────────
+const INTERESTS = [
+  { id: 'beaches',      label: 'Beaches',        icon: 'fa-umbrella-beach' },
+  { id: 'mountains',    label: 'Mountains',       icon: 'fa-mountain' },
+  { id: 'culture',      label: 'Culture & Art',   icon: 'fa-palette' },
+  { id: 'food',         label: 'Food & Cuisine',  icon: 'fa-utensils' },
+  { id: 'adventure',    label: 'Adventure',       icon: 'fa-person-hiking' },
+  { id: 'wildlife',     label: 'Wildlife',        icon: 'fa-paw' },
+  { id: 'history',      label: 'History',         icon: 'fa-landmark' },
+  { id: 'shopping',     label: 'Shopping',        icon: 'fa-bag-shopping' },
+  { id: 'nightlife',    label: 'Nightlife',       icon: 'fa-moon' },
+  { id: 'wellness',     label: 'Wellness & Spa',  icon: 'fa-spa' },
+  { id: 'photography',  label: 'Photography',     icon: 'fa-camera' },
+  { id: 'roadtrip',     label: 'Road Trips',      icon: 'fa-car-side' },
+];
+
+let selectedInterests = [];
+let originalData = {};
+
+// ── Bootstrap ──────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  buildInterestChips();
+  if (!isLoggedIn()) {
+    document.getElementById('authWall').style.display = 'block';
+    return;
+  }
+  document.getElementById('profileLayout').style.display = 'grid';
+  loadProfile();
+});
+
+// ── Load profile from API ──────────────────────────────────────
+async function loadProfile() {
+  try {
+    const user = await apiGet('/auth/me');
+    populateForm(user);
+    originalData = user;
+  } catch (err) {
+    if (err.status === 401) {
+      window.location.href = 'login.html?redirect=profile.html';
+    } else {
+      showBanner('Failed to load profile: ' + (err.message || 'Server error'), 'error');
+    }
+  }
+}
+
+function populateForm(user) {
+  // Identity sidebar
+  document.getElementById('identityName').textContent  = user.name || '—';
+  document.getElementById('identityEmail').textContent = user.email || '—';
+  document.getElementById('identitySince').textContent =
+    'Member since ' + new Date(user.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+  document.getElementById('memberSince').textContent =
+    new Date(user.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  // Avatar
+  if (user.avatar_url) {
+    setAvatarImage(user.avatar_url);
+  } else {
+    // Show initials in avatar
+    const initials = user.name ? user.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2) : 'U';
+    const preview = document.getElementById('avatarPreview');
+    preview.innerHTML = `<span style="font-size:1.75rem;font-weight:700;color:#6366F1;">${initials}</span>`;
+  }
+
+  // Personal info
+  const p = user.profile || {};
+  document.getElementById('firstName').value    = p.first_name || '';
+  document.getElementById('lastName').value     = p.last_name  || '';
+  document.getElementById('profileEmail').value = user.email   || '';
+  document.getElementById('phone').value        = p.phone      || '';
+  document.getElementById('city').value         = p.city       || '';
+  document.getElementById('country').value      = p.country    || '';
+  document.getElementById('bio').value          = p.bio        || '';
+  updateBioCounter();
+
+  // Preferences
+  const prefs = user.preferences || {};
+  document.getElementById('homeCity').value = prefs.home_city || '';
+  selectedInterests = [...(prefs.interests || [])];
+  refreshChipUI();
+}
+
+// ── Bio counter ────────────────────────────────────────────────
+document.getElementById('bio').addEventListener('input', updateBioCounter);
+function updateBioCounter() {
+  const len = document.getElementById('bio').value.length;
+  const el  = document.getElementById('bioCounter');
+  el.textContent = `${len} / 500`;
+  el.style.color = len > 450 ? '#F59E0B' : 'var(--color-text-light)';
+}
+
+// ── Avatar preview ─────────────────────────────────────────────
+function setAvatarImage(src) {
+  const preview = document.getElementById('avatarPreview');
+  preview.innerHTML = `<img src="${src}" alt="Profile photo" style="width:88px;height:88px;border-radius:50%;object-fit:cover;" />`;
+}
+
+function previewAvatar(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  if (file.size > 2 * 1024 * 1024) {
+    showBanner('Image must be smaller than 2 MB', 'error');
+    return;
+  }
+  if (!file.type.startsWith('image/')) {
+    showBanner('Please select a valid image file', 'error');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    setAvatarImage(e.target.result);
+    await uploadAvatar(file);
+  };
+  reader.readAsDataURL(file);
+}
+
+async function uploadAvatar(file) {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const token = localStorage.getItem('travora_token');
+  try {
+    const res = await fetch('http://localhost:8000/api/auth/me/avatar', {
+      method: 'POST',
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      body: formData,
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail || 'Upload failed');
+    }
+
+    const user = await res.json();
+    // Update localStorage cache
+    const cached = JSON.parse(localStorage.getItem('travora_user') || '{}');
+    cached.avatar_url = user.avatar_url;
+    localStorage.setItem('travora_user', JSON.stringify(cached));
+    showBanner('Profile photo updated!', 'success');
+  } catch (err) {
+    showBanner('Avatar upload failed: ' + err.message, 'error');
+  }
+}
+
+// ── Save personal info ─────────────────────────────────────────
+async function saveProfile(e) {
+  e.preventDefault();
+  const btn = document.getElementById('saveProfileBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Saving…';
+
+  const displayName = [
+    document.getElementById('firstName').value.trim(),
+    document.getElementById('lastName').value.trim(),
+  ].filter(Boolean).join(' ') || originalData.name;
+
+  const payload = {
+    name: displayName,
+    profile: {
+      first_name: document.getElementById('firstName').value.trim(),
+      last_name:  document.getElementById('lastName').value.trim(),
+      phone:      document.getElementById('phone').value.trim(),
+      city:       document.getElementById('city').value.trim(),
+      country:    document.getElementById('country').value.trim(),
+      bio:        document.getElementById('bio').value.trim(),
+    },
+  };
+
+  try {
+    const user = await apiPut('/auth/me', payload);
+    // Sync localStorage
+    const cached = JSON.parse(localStorage.getItem('travora_user') || '{}');
+    cached.name    = user.name;
+    cached.profile = user.profile;
+    localStorage.setItem('travora_user', JSON.stringify(cached));
+
+    document.getElementById('identityName').textContent = user.name;
+    showBanner('Profile saved successfully!', 'success');
+  } catch (err) {
+    showBanner('Save failed: ' + (err.message || 'Server error'), 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save Changes';
+  }
+}
+
+// ── Reset form ─────────────────────────────────────────────────
+function resetProfileForm() {
+  if (originalData) populateForm(originalData);
+}
+
+// ── Interest chips ─────────────────────────────────────────────
+function buildInterestChips() {
+  const grid = document.getElementById('interestsGrid');
+  grid.innerHTML = INTERESTS.map(interest => `
+    <div class="interest-chip ${selectedInterests.includes(interest.id) ? 'selected' : ''}"
+         id="chip-${interest.id}"
+         onclick="toggleInterest('${interest.id}')">
+      <i class="fa-solid ${interest.icon}"></i>
+      ${interest.label}
+    </div>`).join('');
+}
+
+function refreshChipUI() {
+  INTERESTS.forEach(i => {
+    const el = document.getElementById(`chip-${i.id}`);
+    if (el) el.classList.toggle('selected', selectedInterests.includes(i.id));
+  });
+}
+
+function toggleInterest(id) {
+  const idx = selectedInterests.indexOf(id);
+  if (idx > -1) selectedInterests.splice(idx, 1);
+  else          selectedInterests.push(id);
+  refreshChipUI();
+}
+
+// ── Save preferences ───────────────────────────────────────────
+async function savePreferences() {
+  const btn = document.getElementById('savePrefBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Saving…';
+
+  try {
+    const user = await apiPut('/auth/me', {
+      preferences: {
+        interests: selectedInterests,
+        home_city: document.getElementById('homeCity').value.trim(),
+      },
+    });
+
+    const cached = JSON.parse(localStorage.getItem('travora_user') || '{}');
+    cached.preferences = user.preferences;
+    localStorage.setItem('travora_user', JSON.stringify(cached));
+
+    showBanner('Travel preferences saved!', 'success');
+  } catch (err) {
+    showBanner('Save failed: ' + (err.message || 'Server error'), 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save Preferences';
+  }
+}
+
+// ── Banner ─────────────────────────────────────────────────────
+function showBanner(msg, type) {
+  const el = document.getElementById('profileBanner');
+  el.style.display = 'block';
+  el.innerHTML = `<i class="fa-solid fa-${type === 'success' ? 'circle-check' : 'circle-exclamation'}" style="margin-right:8px;"></i>${msg}`;
+  el.style.background = type === 'success' ? '#F0FDF4' : '#FEF2F2';
+  el.style.color      = type === 'success' ? '#16A34A' : '#DC2626';
+  el.style.border     = type === 'success' ? '1px solid #BBF7D0' : '1px solid #FECACA';
+  el.style.animation  = 'none';
+  void el.offsetHeight; // reflow
+  el.style.animation  = 'slideDown 0.3s ease';
+  setTimeout(() => { el.style.display = 'none'; }, 4500);
+}
+
+// ── Logout ─────────────────────────────────────────────────────
+function confirmLogout(e) {
+  e.preventDefault();
+  if (confirm('Are you sure you want to sign out?')) logout();
+}
+
+// ── Sidebar nav ────────────────────────────────────────────────
+function scrollToSection(id, linkEl) {
+  document.querySelectorAll('.profile-nav-link').forEach(l => l.classList.remove('active'));
+  linkEl.classList.add('active');
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+</script>
+</body>
+</html>

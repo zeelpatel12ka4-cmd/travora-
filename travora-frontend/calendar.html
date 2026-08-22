@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>`n    <link rel="icon" type="image/png" href="favicon.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trip Calendar — Travora</title>
+  <meta name="description" content="Visualise all your travel itineraries in one interactive monthly calendar. Manage dates, activities, and cities at a glance with Travora's Trip Calendar." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/calendar.css" />
+</head>
+<body>
+
+<!-- ── Navbar ────────────────────────────────────────────────── -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <div class="navbar__logo-icon"><i class="fa-solid fa-earth-americas"></i></div>
+        <span>Travora</span>
+      </a>
+
+      <ul class="navbar__links">
+        <li><a href="index.html"      class="navbar__link">Home</a></li>
+        <li><a href="explore.html"    class="navbar__link">Explore</a></li>
+        <li><a href="my-trips.html"   class="navbar__link">My Trips</a></li>
+        <li><a href="calendar.html"   class="navbar__link active">Calendar</a></li>
+        <li><a href="planner.html"    class="navbar__link">AI Planner</a></li>
+        <li><a href="pricing.html"    class="navbar__link">Pricing</a></li>
+        <li><a href="about.html"      class="navbar__link">About Us</a></li>
+      </ul>
+
+      <div class="navbar__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+          <i class="fa-solid fa-moon" id="themeIcon"></i>
+        </button>
+        <div id="authNav">
+          <a href="login.html?redirect=calendar.html" class="btn btn-outline btn-sm">Login</a>
+          <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+        <div id="userNav" style="display:none; align-items:center; gap:8px;">
+          <div class="user-avatar" id="userAvatar" title="My Account">U</div>
+        </div>
+        <button class="navbar__hamburger" id="hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="navbar__mobile-menu" id="mobileMenu">
+    <a href="index.html"    class="navbar__link">Home</a>
+    <a href="explore.html"  class="navbar__link">Explore</a>
+    <a href="my-trips.html" class="navbar__link">My Trips</a>
+    <a href="calendar.html" class="navbar__link active">Calendar</a>
+    <a href="planner.html"  class="navbar__link">AI Planner</a>
+    <a href="pricing.html"  class="navbar__link">Pricing</a>
+    <a href="about.html"    class="navbar__link">About Us</a>
+    <div style="border-top:1px solid var(--color-border); padding-top:12px; display:flex; gap:8px; flex-wrap:wrap;" id="mobileAuthNav">
+      <a href="login.html"  class="btn btn-outline btn-sm">Login</a>
+      <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+<main>
+
+  <!-- ── Calendar Page ─────────────────────────────────────────── -->
+  <div class="cal-page">
+
+    <!-- Top Controls Bar -->
+    <div class="cal-topbar">
+      <div class="container">
+        <div class="cal-topbar__inner">
+
+          <!-- Title -->
+          <div class="cal-topbar__title">
+            <div class="cal-topbar__title-icon">
+              <i class="fa-solid fa-calendar-days"></i>
+            </div>
+            <div>
+              <h1>Trip Calendar</h1>
+              <span>All your itineraries at a glance</span>
+            </div>
+          </div>
+
+          <!-- Search + Bell -->
+          <div class="cal-topbar__right">
+            <div class="cal-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input
+                type="text"
+                id="calSearch"
+                placeholder="Search trips, cities, itineraries…"
+                aria-label="Search calendar"
+              />
+            </div>
+            <button class="cal-notif-btn" aria-label="Notifications" title="Notifications">
+              <i class="fa-solid fa-bell"></i>
+              <span class="cal-notif-dot"></span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Grid -->
+    <div class="container">
+      <div class="cal-dashboard">
+
+        <!-- ── Left: Monthly Calendar Panel ─────────────────── -->
+        <div class="cal-panel">
+
+          <!-- Month Header -->
+          <div class="cal-month-header">
+            <div class="cal-month-nav">
+              <button class="cal-nav-btn" id="calPrev" aria-label="Previous month">
+                <i class="fa-solid fa-chevron-left"></i>
+              </button>
+              <button class="cal-nav-btn" id="calNext" aria-label="Next month">
+                <i class="fa-solid fa-chevron-right"></i>
+              </button>
+            </div>
+
+            <span class="cal-month-title" id="calMonthTitle">Loading…</span>
+
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div class="cal-view-tabs">
+                <button class="cal-view-tab active" data-view="month">Month</button>
+                <button class="cal-view-tab" data-view="week">Week</button>
+              </div>
+              <button class="cal-today-btn" id="calTodayBtn">Today</button>
+            </div>
+          </div>
+
+          <!-- Weekday headers -->
+          <div class="cal-weekdays">
+            <div class="cal-weekday">Sun</div>
+            <div class="cal-weekday">Mon</div>
+            <div class="cal-weekday">Tue</div>
+            <div class="cal-weekday">Wed</div>
+            <div class="cal-weekday">Thu</div>
+            <div class="cal-weekday">Fri</div>
+            <div class="cal-weekday">Sat</div>
+          </div>
+
+          <!-- Calendar Grid — rendered by calendar.js -->
+          <div class="cal-grid" id="calGrid" role="grid" aria-label="Trip calendar grid"></div>
+
+        </div><!-- /.cal-panel -->
+
+        <!-- ── Right: Sidebar Cards ──────────────────────────── -->
+        <aside class="cal-sidebar">
+
+          <!-- Card 1: Trip Legend (JS-rendered) -->
+          <div class="cal-card">
+            <div class="cal-card__header">
+              <div class="cal-card__header-icon cal-card__header-icon--purple">
+                <i class="fa-solid fa-map-pin"></i>
+              </div>
+              <h3>Trip Legend</h3>
+            </div>
+            <div class="cal-card__body">
+              <!--
+                JS renders into #calLegendList.
+                When empty: shows "No scheduled trips" + Plan CTA.
+                When logged out: shows sign-in prompt.
+              -->
+              <ul class="cal-legend-list" id="calLegendList">
+                <!-- Skeleton placeholder while loading -->
+                <li style="height:52px;background:#F3F4F6;border-radius:10px;animation:pulse 1.5s infinite;"></li>
+                <li style="height:52px;background:#F3F4F6;border-radius:10px;animation:pulse 1.5s infinite;margin-top:10px;"></li>
+              </ul>
+              <a href="planner.html" class="btn btn-primary btn-sm" style="width:100%; margin-top:16px; justify-content:center;">
+                <i class="fa-solid fa-plus"></i> Plan New Trip
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 2: Quick Stats (JS-rendered) -->
+          <div class="cal-card">
+            <div class="cal-card__header">
+              <div class="cal-card__header-icon cal-card__header-icon--green">
+                <i class="fa-solid fa-chart-bar"></i>
+              </div>
+              <h3>Quick Stats</h3>
+            </div>
+            <div class="cal-card__body">
+              <!-- Stats grid — rendered by calendar.js into #calStatsGrid -->
+              <div class="cal-stats-grid" id="calStatsGrid">
+                <!-- Skeleton -->
+                <div style="height:88px;background:#F3F4F6;border-radius:12px;animation:pulse 1.5s infinite;"></div>
+                <div style="height:88px;background:#F3F4F6;border-radius:12px;animation:pulse 1.5s infinite;"></div>
+                <div style="height:88px;background:#F3F4F6;border-radius:12px;animation:pulse 1.5s infinite;grid-column:span 2;"></div>
+              </div>
+
+              <!-- Next Trip widget — rendered by calendar.js into #calNextTrip -->
+              <div id="calNextTrip"
+                   style="margin-top:16px;padding:14px;background:linear-gradient(135deg,#EEF2FF,#F5F3FF);border-radius:12px;border:1px solid #C4B5FD;min-height:80px;">
+                <!-- Skeleton -->
+                <div style="height:12px;width:60%;background:#D8D8F0;border-radius:6px;margin-bottom:8px;animation:pulse 1.5s infinite;"></div>
+                <div style="height:16px;width:80%;background:#D8D8F0;border-radius:6px;animation:pulse 1.5s infinite;"></div>
+              </div>
+            </div>
+          </div>
+
+        </aside><!-- /.cal-sidebar -->
+
+      </div><!-- /.cal-dashboard -->
+    </div><!-- /.container -->
+
+  </div><!-- /.cal-page -->
+
+</main>
+
+<!-- ── Footer ───────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a href="index.html" class="navbar__logo" style="margin-bottom:12px; display:inline-flex;">
+          <div class="navbar__logo-icon"><i class="fa-solid fa-earth-americas"></i></div>
+          <span>Travora</span>
+        </a>
+        <p>AI-powered travel planning for curious explorers. Your next adventure is one prompt away.</p>
+      </div>
+      <div>
+        <h4 style="font-size:0.875rem; margin-bottom:12px; color:var(--color-text);">Product</h4>
+        <ul style="display:flex; flex-direction:column; gap:8px;">
+          <li><a href="explore.html" style="font-size:0.875rem; color:var(--color-text-muted);">Explore</a></li>
+          <li><a href="planner.html" style="font-size:0.875rem; color:var(--color-text-muted);">AI Planner</a></li>
+          <li><a href="calendar.html" style="font-size:0.875rem; color:var(--color-primary); font-weight:600;">Calendar</a></li>
+          <li><a href="pricing.html" style="font-size:0.875rem; color:var(--color-text-muted);">Pricing</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-size:0.875rem; margin-bottom:12px; color:var(--color-text);">Company</h4>
+        <ul style="display:flex; flex-direction:column; gap:8px;">
+          <li><a href="about.html" style="font-size:0.875rem; color:var(--color-text-muted);">About Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-size:0.875rem; margin-bottom:12px; color:var(--color-text);">Account</h4>
+        <ul style="display:flex; flex-direction:column; gap:8px;">
+          <li><a href="login.html"    style="font-size:0.875rem; color:var(--color-text-muted);">Login</a></li>
+          <li><a href="signup.html"   style="font-size:0.875rem; color:var(--color-text-muted);">Sign Up</a></li>
+          <li><a href="my-trips.html" style="font-size:0.875rem; color:var(--color-text-muted);">My Trips</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--color-border); padding-top:var(--space-lg); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <p style="font-size:0.8125rem; color:var(--color-text-muted);">&copy; 2026 Travora. All rights reserved.</p>
+      <div style="display:flex; gap:16px;">
+        <a href="#" style="font-size:0.8125rem; color:var(--color-text-muted);">Privacy</a>
+        <a href="#" style="font-size:0.8125rem; color:var(--color-text-muted);">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</div><!-- /.page-wrapper -->
+
+<!-- Tooltip (portal) -->
+<div class="cal-tooltip" id="calTooltip" role="tooltip" aria-hidden="true"></div>
+
+<!-- Toast container (required by showToast() in api.js) -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!--
+  Load order matters:
+  1. theme.js  — sets data-theme before paint (no flash)
+  2. api.js    — provides apiGet, showToast, formatDate, etc.
+  3. auth.js   — provides isLoggedIn, syncAuthUI (runs on DOMContentLoaded)
+  4. calendar.js — consumes all the above; calls fetchAndInit() at bottom
+-->
+<script src="js/theme.js"></script>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/calendar.js"></script>
+</body>
+</html>
